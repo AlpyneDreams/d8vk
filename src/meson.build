@@ -31,7 +31,14 @@ if get_option('enable_d3d9')
   subdir('d3d9')
 endif
 
+if get_option('enable_d3d8')
+  if not get_option('enable_d3d9')
+    error('D3D9 is required for D3D8.')
+  endif
+  subdir('d3d8')
+endif
+
 # Nothing selected
-if not get_option('enable_d3d9') and not get_option('enable_d3d10') and not get_option('enable_d3d11')
+if not get_option('enable_d3d8') and not get_option('enable_d3d9') and not get_option('enable_d3d10') and not get_option('enable_d3d11')
   warning('Nothing selected to be built.?')
 endif
