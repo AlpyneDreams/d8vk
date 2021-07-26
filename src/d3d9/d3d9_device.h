@@ -25,6 +25,8 @@
 
 #include "d3d9_shader_permutations.h"
 
+#include "d3d9_bridge.h"
+
 #include <vector>
 #include <type_traits>
 #include <unordered_map>
@@ -101,6 +103,7 @@ namespace dxvk {
     constexpr static uint32_t NullStreamIdx = caps::MaxStreams;
 
     friend class D3D9SwapChainEx;
+    friend class D3D9Bridge;
   public:
 
     D3D9DeviceEx(
@@ -942,6 +945,8 @@ namespace dxvk {
 
     D3D9FFShaderModuleSet           m_ffModules;
     D3D9SWVPEmulator                m_swvpEmulator;
+
+    D3D9Bridge                      m_bridge;
 
     DxvkCsChunkRef AllocCsChunk() {
       DxvkCsChunk* chunk = m_csChunkPool.allocChunk(DxvkCsChunkFlag::SingleUse);

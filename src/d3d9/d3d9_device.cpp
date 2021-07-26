@@ -49,7 +49,8 @@ namespace dxvk {
     , m_multithread    ( BehaviorFlags & D3DCREATE_MULTITHREADED )
     , m_shaderModules  ( new D3D9ShaderModuleSet )
     , m_d3d9Options    ( dxvkDevice, pParent->GetInstance()->config() )
-    , m_isSWVP         ( (BehaviorFlags & D3DCREATE_SOFTWARE_VERTEXPROCESSING) ? TRUE : FALSE ) {
+    , m_isSWVP         ( (BehaviorFlags & D3DCREATE_SOFTWARE_VERTEXPROCESSING) ? TRUE : FALSE )
+    , m_bridge         ( this ) {
     // If we can SWVP, then we use an extended constant set
     // as SWVP has many more slots available than HWVP.
     bool canSWVP = CanSWVP();
@@ -107,6 +108,11 @@ namespace dxvk {
      || riid == __uuidof(IDirect3DDevice9)
      || extended) {
       *ppvObject = ref(this);
+      return S_OK;
+    }
+    
+    if (riid == __uuidof(D3D9Bridge)) {
+      *ppvObject = ref(&m_bridge);
       return S_OK;
     }
 
