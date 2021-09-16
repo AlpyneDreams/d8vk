@@ -13,11 +13,12 @@ namespace dxvk {
 
   public:
     D3D9Bridge(D3D9DeviceEx* pDevice) : m_device(pDevice) {}
+    virtual ~D3D9Bridge() = default;
 
     ULONG AddRef();
     ULONG Release();
 
-    void SetD3D8Mode();
+    virtual void SetD3D8Mode();
 
   private:
     D3D9DeviceEx* m_device;
