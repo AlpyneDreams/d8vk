@@ -202,5 +202,6 @@ if $with_dxgi || [ "$action" == "uninstall" ]; then
 fi
 
 $action d3d9
+$action d3d8
 $action d3d10core
 $action d3d11
