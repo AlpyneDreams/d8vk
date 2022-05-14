@@ -3,6 +3,7 @@
 #include "d3d9_monitor.h"
 #include "d3d9_caps.h"
 #include "d3d9_device.h"
+#include "d3d9_bridge.h"
 
 #include <algorithm>
 
@@ -10,6 +11,7 @@ namespace dxvk {
 
   D3D9InterfaceEx::D3D9InterfaceEx(bool bExtended)
     : m_instance    ( new DxvkInstance() )
+    , m_bridge      ( this )
     , m_extended    ( bExtended ) 
     , m_d3d9Options ( nullptr, m_instance->config() )
     , m_d3d9Interop ( this ) {
@@ -74,6 +76,11 @@ namespace dxvk {
      || riid == __uuidof(IDirect3D9)
      || (m_extended && riid == __uuidof(IDirect3D9Ex))) {
       *ppvObject = ref(this);
+      return S_OK;
+    }
+
+    if (riid == __uuidof(D3D9InterfaceBridge)) {
+      *ppvObject = ref(&m_bridge);
       return S_OK;
     }
 
