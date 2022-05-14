@@ -12,6 +12,7 @@ namespace dxvk
     d3d9::Direct3DCreate9Ex(D3D_SDK_VERSION, &m_d3d9ex);
 
     m_bridge = GetD3D9Bridge<D3D9InterfaceBridge>(m_d3d9ex);
+    m_d3d8Options = m_bridge->GetConfig();
 
     m_adapterCount = m_d3d9ex->GetAdapterCount();
 

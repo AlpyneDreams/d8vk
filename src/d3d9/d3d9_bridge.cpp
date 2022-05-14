@@ -26,4 +26,8 @@ namespace dxvk {
   ULONG D3D9InterfaceBridge::Release() {
     return m_interface->Release();
   }
+
+  const Config& D3D9InterfaceBridge::GetConfig() const {
+    return m_interface->GetInstance()->config();
+  }
 }
