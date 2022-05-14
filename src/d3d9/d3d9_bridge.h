@@ -1,7 +1,7 @@
 #pragma once
 
 #include <windows.h>
-
+#include "../util/config/config.h"
 #include "../util/util_error.h"
 
 namespace dxvk {
@@ -39,6 +39,8 @@ namespace dxvk {
 
     ULONG AddRef();
     ULONG Release();
+
+    virtual const Config& GetConfig() const;
     
   protected:
     D3D9InterfaceEx* m_interface;
