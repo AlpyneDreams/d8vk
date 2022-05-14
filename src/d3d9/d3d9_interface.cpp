@@ -3,17 +3,19 @@
 #include "d3d9_monitor.h"
 #include "d3d9_caps.h"
 #include "d3d9_device.h"
+#include "d3d9_bridge.h"
 
 #include "../util/util_singleton.h"
 
 #include <algorithm>
 
-namespace dxvk {
+namespace dxvk {    
 
   Singleton<DxvkInstance> g_dxvkInstance;
 
   D3D9InterfaceEx::D3D9InterfaceEx(bool bExtended)
     : m_instance    ( g_dxvkInstance.acquire() )
+    , m_bridge      ( this )
     , m_extended    ( bExtended ) 
     , m_d3d9Options ( nullptr, m_instance->config() )
     , m_d3d9Interop ( this ) {
@@ -83,6 +85,11 @@ namespace dxvk {
      || riid == __uuidof(IDirect3D9)
      || (m_extended && riid == __uuidof(IDirect3D9Ex))) {
       *ppvObject = ref(this);
+      return S_OK;
+    }
+
+    if (riid == __uuidof(D3D9InterfaceBridge)) {
+      *ppvObject = ref(&m_bridge);
       return S_OK;
     }
 

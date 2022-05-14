@@ -75,15 +75,11 @@ namespace dxvk {
     HWND                          hFocusWindow,
     DWORD                         BehaviorFlags)
     : D3D8DeviceBase(std::move(pDevice))
+    , m_bridge(GetD3D9Bridge<D3D9Bridge>(GetD3D9()))
     , m_parent(pParent)
     , m_deviceType(DeviceType)
     , m_window(hFocusWindow)
     , m_behaviorFlags(BehaviorFlags) {
-
-    // Get the bridge interface to D3D9.
-    if (FAILED(GetD3D9()->QueryInterface(__uuidof(D3D9Bridge), (void**)&m_bridge))) {
-      throw DxvkError("D3D8DeviceEx: ERROR! Failed to get D3D9 Bridge. d3d9.dll might not be DXVK!");
-    }
 
     m_bridge->SetD3D8Mode();
 
