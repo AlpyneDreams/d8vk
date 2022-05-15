@@ -634,6 +634,18 @@ namespace dxvk {
     { R"(\\(hammer(plusplus)?|mallet|wc)\.exe$)", {{
       { "d3d9.apitraceMode",                "True" },
     }} },
+
+    /**********************************************/
+    /* D3D8 GAMES                                 */
+    /**********************************************/
+
+    /* Duke Nukem Forever (2001)                  *
+     * Hack: force D16 to reduce Z-fighting       *
+     * on shadows.                                */
+    { R"(\\DukeForever\.exe$)", {{
+      { "d3d9.maxFrameRate",                "60"   },
+      { "d3d8.forceD16",                    "True" },
+    }} },
   }};
 
 
