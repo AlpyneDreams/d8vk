@@ -44,7 +44,8 @@ d3d9_src = [
   'd3d9_annotation.cpp',
   'd3d9_mem.cpp',
   'd3d9_window.cpp',
-  'd3d9_interop.cpp'
+  'd3d9_interop.cpp',
+  'd3d9_bridge.cpp'
 ]
 
 d3d9_ld_args      = []
@@ -69,3 +70,12 @@ d3d9_dep = declare_dependency(
   link_with           : [ d3d9_dll ],
   include_directories : [ dxvk_include_path ],
 )
+
+
+d3d9_lib = static_library('d3d9_static', d3d9_src, glsl_generator.process(d3d9_shaders), d3d9_res,
+  include_directories : [ dxvk_include_path ],
+  override_options    : ['cpp_std='+dxvk_cpp_std])
+
+d3d9_lib_dep = declare_dependency(
+  link_with           : [ d3d9_lib ],
+  include_directories : [ dxvk_include_path ])
