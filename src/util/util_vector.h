@@ -153,7 +153,12 @@ namespace dxvk {
   inline Vector4 replaceNaN(Vector4 a) {
     #ifdef DXVK_ARCH_X86
     Vector4 result;
+#if !defined(_WIN64) && !defined(__x86_64__)
+    // On 32-bit, the vector may not be 16 byte aligned
+    __m128 value = _mm_loadu_ps(a.data);
+#else
     __m128 value = _mm_load_ps(a.data);
+#endif
     __m128 mask  = _mm_cmpeq_ps(value, value);
            value = _mm_and_ps(value, mask);
     _mm_store_ps(result.data, value);
