@@ -9,6 +9,8 @@
 #include "d3d8_d3d9_util.h"
 #include "d3d8_caps.h"
 
+#include "../d3d9/d3d9_bridge.h"
+
 #include <array>
 #include <vector>
 #include <type_traits>
@@ -818,6 +820,8 @@ namespace dxvk {
     inline bool ShouldRecord() { return m_recorder != nullptr; }
 
   private:
+
+    D3D9Bridge*           m_bridge;
 
     Com<D3D8InterfaceEx>  m_parent;
 
