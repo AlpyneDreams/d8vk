@@ -4,6 +4,11 @@
 #include "../util/config/config.h"
 #include "../util/util_error.h"
 
+/**
+ * The D3D9 bridge allows D3D8 to access DXVK internals.
+ * For Vulkan interop without needing DXVK internals, see d3d9_interop.h.
+ */
+
 namespace dxvk {
 
   class D3D9DeviceEx;
