@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "../util/config/config.h"
 #include "../util/util_error.h"
+#include "../util/log/log.h"
 
 /**
  * The D3D9 bridge allows D3D8 to access DXVK internals.
@@ -57,7 +58,9 @@ namespace dxvk {
   B* GetD3D9Bridge(T* object) {
     B* pointer;
     if (FAILED(object->QueryInterface(__uuidof(B), (void**)&pointer))) {
-      throw DxvkError("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge. d3d9.dll might not be DXVK!");
+      Logger::err("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge. d3d9.dll might be DXVK, but not a version built for D8VK!");
+      Logger::err("Please install the d3d9.dll that came with d3d8.dll");
+      throw DxvkError("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge. d3d9.dll might be DXVK, but not a version built for D8VK!");
     }
     return pointer;
   }
