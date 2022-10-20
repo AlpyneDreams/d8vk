@@ -23,14 +23,14 @@ jobs:
       with:
         command: |
           export VERSION_NAME="${GITHUB_REF##*/}-${GITHUB_SHA##*/}"
-          ./package-release.sh ${VERSION_NAME} build --no-package
+          ./build_d3d8.sh ${VERSION_NAME} build --no-package
           echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
 
     - name: Upload artifacts
       id: upload-artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: dxvk-${{ env.VERSION_NAME }}
+        name: d8vk-${{ env.VERSION_NAME }}
         path: build/dxvk-${{ env.VERSION_NAME }}
         if-no-files-found: error
 
