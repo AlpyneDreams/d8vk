@@ -84,6 +84,7 @@ namespace dxvk {
     m_bridge->SetD3D8Mode();
 
     m_textures.fill(nullptr);
+    m_streams.fill(D3D8VBO());
 
   }
 
