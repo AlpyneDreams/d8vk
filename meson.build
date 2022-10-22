@@ -45,6 +45,10 @@ if platform == 'windows'
     '-D_WIN32_WINNT=0xa00',
   ]
 
+  dxvk_include_dirs += [
+    './include/windows/directx'
+  ]
+
   link_args += [
     '-static',
     '-static-libgcc',
