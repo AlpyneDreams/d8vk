@@ -23,10 +23,12 @@ namespace dxvk {
     //D3D8Adapter*                  pAdapter,
     D3DDEVTYPE                    DeviceType,
     HWND                          hFocusWindow,
-    DWORD                         BehaviorFlags)
+    DWORD                         BehaviorFlags,
+    D3DPRESENT_PARAMETERS*        pParams)
     : D3D8DeviceBase(std::move(pDevice))
     , m_bridge(GetD3D9Bridge<D3D9Bridge>(GetD3D9()))
     , m_parent(pParent)
+    , m_presentParams(*pParams)
     , m_deviceType(DeviceType)
     , m_window(hFocusWindow)
     , m_behaviorFlags(BehaviorFlags) {
