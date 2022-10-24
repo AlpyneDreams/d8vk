@@ -38,6 +38,7 @@ namespace dxvk {
     m_textures.fill(nullptr);
     m_streams.fill(D3D8VBO());
 
+    ResetState();
   }
 
 
