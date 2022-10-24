@@ -5,6 +5,10 @@
 #include "../util/util_error.h"
 #include "../util/log/log.h"
 
+#include "../vulkan/vulkan_loader.h"
+
+// NOTE: You must include "d3d9_include.h" or "d3d8_include.h" before this header.
+
 /**
  * The D3D9 bridge allows D3D8 to access DXVK internals.
  * For Vulkan interop without needing DXVK internals, see d3d9_interop.h.
@@ -20,6 +24,11 @@ namespace dxvk {
 
   class D3D9Bridge {
 
+  // D3D8 keeps D3D9 objects contained in a namespace.
+  #ifdef DXVK_D3D9_NAMESPACE
+    using IDirect3DSurface9 = d3d9::IDirect3DSurface9;
+  #endif
+
   public:
     using Type = D3D9DeviceEx;
 
@@ -30,6 +39,11 @@ namespace dxvk {
     ULONG Release();
 
     virtual void SetD3D8Mode();
+    virtual HRESULT UpdateTextureFromBuffer(
+        IDirect3DSurface9*        pDestSurface,
+        IDirect3DSurface9*        pSrcSurface,
+        const RECT*               pSrcRect,
+        const POINT*              pDestPoint);
 
   private:
     D3D9DeviceEx* m_device;
