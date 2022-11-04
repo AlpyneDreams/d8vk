@@ -19,8 +19,10 @@ namespace dxvk {
   class D3D9DeviceEx;
   class D3D9InterfaceEx;
 
+#if defined(_MSC_VER)
   class DECLSPEC_UUID("D3D9ACAB-42A9-4C1E-AA97-DEADFADED420") D3D9Bridge;
   class DECLSPEC_UUID("D3D9ACAB-A407-773E-18E9-CAFEBEEF2000") D3D9InterfaceBridge;
+#endif
 
   class D3D9Bridge {
 
