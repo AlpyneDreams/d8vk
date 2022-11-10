@@ -24,6 +24,8 @@ namespace dxvk {
         IDirect3DSurface9*  pSrcSurface,
         const RECT*         pSrcRect,
         const POINT*        pDestPoint) {
+    auto lock = m_device->LockDevice();
+
     D3D9Surface* dst = static_cast<D3D9Surface*>(pDestSurface);
     D3D9Surface* src = static_cast<D3D9Surface*>(pSrcSurface);
 
@@ -57,6 +59,11 @@ namespace dxvk {
       srcOffset, extent, dstOffset
     );
 
+    dstTextureInfo->SetNeedsReadback(dst->GetSubresource(), true);
+
+    if (dstTextureInfo->IsAutomaticMip())
+      m_device->MarkTextureMipsDirty(dstTextureInfo);
+    
     return D3D_OK;
   }
 
