@@ -15,8 +15,8 @@ namespace dxvk {
     return m_device->Release();
   }
 
-  void D3D9Bridge::SetD3D8Mode() {
-    m_device->m_implicitSwapchain->SetApiName("D3D8");
+  void D3D9Bridge::SetAPIName(const char* name) {
+    m_device->m_implicitSwapchain->SetApiName(name);
   }
 
   HRESULT D3D9Bridge::UpdateTextureFromBuffer(

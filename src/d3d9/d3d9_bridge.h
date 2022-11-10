@@ -40,7 +40,7 @@ namespace dxvk {
     ULONG AddRef();
     ULONG Release();
 
-    virtual void SetD3D8Mode();
+    virtual void SetAPIName(const char* name);
     virtual HRESULT UpdateTextureFromBuffer(
         IDirect3DSurface9*        pDestSurface,
         IDirect3DSurface9*        pSrcSurface,

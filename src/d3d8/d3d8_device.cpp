@@ -3,6 +3,8 @@
 #include "d3d8_interface.h"
 #include "d3d8_shader.h"
 
+#include "../../version.h"
+
 #ifdef MSC_VER
 #pragma fenv_access (on)
 #endif
@@ -35,7 +37,11 @@ namespace dxvk {
     , m_window(hFocusWindow)
     , m_behaviorFlags(BehaviorFlags) {
 
-    m_bridge->SetD3D8Mode();
+    if constexpr (DXVK_VERSION[sizeof(DXVK_VERSION)-2] == '+') {
+      m_bridge->SetAPIName("D3D8 (" __DATE__ ", " __TIME__ ")");
+    } else {
+      m_bridge->SetAPIName("D3D8");
+    }
 
     m_textures.fill(nullptr);
     m_streams.fill(D3D8VBO());
