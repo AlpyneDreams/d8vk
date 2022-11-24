@@ -7,6 +7,8 @@
 
 #include "../vulkan/vulkan_loader.h"
 
+#include <bitset>
+
 // NOTE: You must include "d3d9_include.h" or "d3d8_include.h" before this header.
 
 /**
@@ -47,8 +49,25 @@ namespace dxvk {
         const RECT*               pSrcRect,
         const POINT*              pDestPoint);
 
+
+    // Indicate that D3D9 shouldn't complain about an unhandled
+    // D3DRENDERSTATE because it's implemented elsewhere.
+    template <typename... Args>
+    inline void AddSupportedRenderStates(Args... state) {
+      ((m_supportedRenderStates[state] = true), ...);
+    }
+
+    inline void RenderStateNotSupported(uint8_t renderState) {
+      m_supportedRenderStates[renderState] = false;
+    }
+
+    constexpr bool IsRenderStateSupported(uint8_t renderState) const {
+      return m_supportedRenderStates[renderState];
+    }
+
   private:
-    D3D9DeviceEx* m_device;
+    D3D9DeviceEx*           m_device;
+    std::bitset<UINT8_MAX>  m_supportedRenderStates;
   };
 
   class D3D9InterfaceBridge {

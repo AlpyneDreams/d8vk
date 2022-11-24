@@ -2179,7 +2179,7 @@ namespace dxvk {
         default:
           static bool s_errorShown[256];
 
-          if (!std::exchange(s_errorShown[State], true))
+          if (!std::exchange(s_errorShown[State], true) && !m_bridge.IsRenderStateSupported(State))
             Logger::warn(str::format("D3D9DeviceEx::SetRenderState: Unhandled render state ", State));
           break;
       }
