@@ -3,6 +3,7 @@
 #include "d3d9_include.h"
 
 #include "d3d9_caps.h"
+#include "d3d9_format.h"
 
 #include "../dxvk/dxvk_shader.h"
 
@@ -143,6 +144,29 @@ namespace dxvk {
     D3D9FFShaderKeyVSData Data;
   };
 
+  enum D3D9DrefScale : uint32_t {
+    DrefScale_None  = 0,
+    DrefScale_D16   = 1,
+    DrefScale_D24S8 = 2,
+  };
+
+  constexpr float GetDrefScaleFactor(const D3D9DrefScale scale) {
+    switch (scale) {
+      default:                return 1.0f;
+      case DrefScale_D16:     return 1.0f / (float(1 << 16) - 1.0f);
+      case DrefScale_D24S8:   return 1.0f / (float(1 << 24) - 1.0f);
+    }
+  }
+
+  constexpr D3D9DrefScale GetDepthBufferDrefScale(D3D9Format format) {
+    switch (format) {
+      default:                return DrefScale_None;
+      case D3D9Format::D16:   return DrefScale_D16;
+      case D3D9Format::D24S8: return DrefScale_D24S8;
+    }
+  }
+
+
   constexpr uint32_t TextureArgCount = 3;
 
   struct D3D9FFShaderStage {
@@ -165,6 +189,8 @@ namespace dxvk {
         uint32_t     ProjectedCount : 3;
 
         uint32_t     TextureBound : 1;
+
+        uint32_t      DrefScale : 2;
 
         // Included in here, read from Stage 0 for packing reasons
         // Affects all stages.

@@ -22,6 +22,7 @@ namespace dxvk {
   class D3D8InterfaceEx;
   class D3D8SwapChainEx;
 
+  struct D3D8Options;
   struct D3D8VertexShaderInfo;
 
   using D3D8DeviceBase = D3D8WrappedObject<d3d9::IDirect3DDevice9, IDirect3DDevice8>;
@@ -821,6 +822,7 @@ namespace dxvk {
   private:
 
     D3D9Bridge*           m_bridge;
+    const D3D8Options&    m_d3d8Options;          
 
     Com<D3D8InterfaceEx>  m_parent;
 

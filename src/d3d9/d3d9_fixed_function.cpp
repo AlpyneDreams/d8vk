@@ -1778,6 +1778,11 @@ namespace dxvk {
         return coords;
       };
 
+      auto ScalarReplicate = [&](uint32_t reg) {
+        std::array<uint32_t, 4> replicant = { reg, reg, reg, reg };
+        return m_module.opCompositeConstruct(m_vec4Type, replicant.size(), replicant.data());
+      };
+
       auto GetTexture = [&]() {
         if (!processedTexture) {
           SpirvImageOperands imageOperands;
@@ -1785,9 +1790,11 @@ namespace dxvk {
 
           uint32_t texcoordCnt = m_ps.samplers[i].texcoordCnt;
 
+          D3D9DrefScale drefScale = D3D9DrefScale(m_fsKey.Stages[i].Contents.DrefScale);
+
           // Add one for the texcoord count
           // if we need to include the divider
-          if (m_fsKey.Stages[i].Contents.Projected)
+          if (m_fsKey.Stages[i].Contents.Projected || drefScale != DrefScale_None)
             texcoordCnt++;
 
           std::array<uint32_t, 4> indices = { 0, 1, 2, 3 };
@@ -1826,10 +1833,21 @@ namespace dxvk {
             shouldProject = false;
           }
 
-          if (shouldProject)
-            texture = m_module.opImageSampleProjImplicitLod(m_vec4Type, imageVarId, texcoord, imageOperands);
-          else
-            texture = m_module.opImageSampleImplicitLod(m_vec4Type, imageVarId, texcoord, imageOperands);
+          if (unlikely(drefScale != DrefScale_None)) {
+            uint32_t component = 2;
+            uint32_t reference = m_module.opCompositeExtract(m_floatType, texcoord, 1, &component);
+
+            uint32_t maxDref = m_module.constf32(GetDrefScaleFactor(drefScale));
+            reference        = m_module.opFMul(m_floatType, reference, maxDref);
+            
+            texture = m_module.opImageSampleDrefImplicitLod(m_floatType, imageVarId, texcoord, reference, imageOperands);
+            texture = ScalarReplicate(texture);
+          } else {
+            if (shouldProject)
+              texture = m_module.opImageSampleProjImplicitLod(m_vec4Type, imageVarId, texcoord, imageOperands);
+            else
+              texture = m_module.opImageSampleImplicitLod(m_vec4Type, imageVarId, texcoord, imageOperands);
+          }
 
           if (i != 0 && m_fsKey.Stages[i - 1].Contents.ColorOp == D3DTOP_BUMPENVMAPLUMINANCE) {
             uint32_t index = m_module.constu32(D3D9SharedPSStages_Count * (i - 1) + D3D9SharedPSStages_BumpEnvLScale);
@@ -1855,11 +1873,6 @@ namespace dxvk {
         processedTexture = true;
 
         return texture;
-      };
-
-      auto ScalarReplicate = [&](uint32_t reg) {
-        std::array<uint32_t, 4> replicant = { reg, reg, reg, reg };
-        return m_module.opCompositeConstruct(m_vec4Type, replicant.size(), replicant.data());
       };
 
       auto AlphaReplicate = [&](uint32_t reg) {

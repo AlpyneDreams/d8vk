@@ -45,6 +45,7 @@ namespace dxvk {
     D3DPRESENT_PARAMETERS*        pParams)
     : D3D8DeviceBase(std::move(pDevice))
     , m_bridge(GetD3D9Bridge<D3D9Bridge>(GetD3D9()))
+    , m_d3d8Options(pParent->GetOptions())
     , m_parent(pParent)
     , m_presentParams(*pParams)
     , m_deviceType(DeviceType)
@@ -56,6 +57,9 @@ namespace dxvk {
     } else {
       m_bridge->SetAPIName("D3D8");
     }
+
+    // Shadow buffers are implemented by scaling depth test reference values
+    m_bridge->SetDrefScalingEnabled(m_d3d8Options.useShadowBuffers);
 
     // D3D8 Render states that aren't remapped
     // but should still be recorded by D3D9

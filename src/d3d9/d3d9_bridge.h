@@ -43,6 +43,9 @@ namespace dxvk {
     ULONG Release();
 
     virtual void SetAPIName(const char* name);
+
+    virtual void SetDrefScalingEnabled(bool enabled);
+
     virtual HRESULT UpdateTextureFromBuffer(
         IDirect3DSurface9*        pDestSurface,
         IDirect3DSurface9*        pSrcSurface,

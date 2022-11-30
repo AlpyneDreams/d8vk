@@ -1148,7 +1148,7 @@ namespace dxvk {
     void UpdateVertexBoolSpec(uint32_t value);
     void UpdatePixelBoolSpec(uint32_t value);
     void UpdatePixelShaderSamplerSpec(uint32_t types, uint32_t projections, uint32_t fetch4);
-    void UpdateCommonSamplerSpec(uint32_t boundMask, uint32_t depthMask, uint32_t drefMask);
+    void UpdateCommonSamplerSpec(uint32_t boundMask, uint32_t depthMask, uint32_t drefMask, uint32_t drefScale);
     void UpdatePointModeSpec(uint32_t mode);
     void UpdateFogModeSpec(bool fogEnabled, D3DFOGMODE vertexFogMode, D3DFOGMODE pixelFogMode);
 
@@ -1244,6 +1244,9 @@ namespace dxvk {
     uint32_t                        m_cubeTextures = 0;
     uint32_t                        m_textureTypes = 0;
     uint32_t                        m_projectionBitfield  = 0;
+
+    bool                            m_drefScaling = false;
+    uint32_t                        m_drefScale   = 0;
 
     uint32_t                        m_dirtySamplerStates = 0;
     uint32_t                        m_dirtyTextures      = 0;

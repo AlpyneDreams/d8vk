@@ -19,6 +19,10 @@ namespace dxvk {
     m_device->m_implicitSwapchain->SetApiName(name);
   }
 
+  void D3D9Bridge::SetDrefScalingEnabled(bool enabled) {
+    m_device->m_drefScaling = enabled;
+  }
+
   HRESULT D3D9Bridge::UpdateTextureFromBuffer(
         IDirect3DSurface9*  pDestSurface,
         IDirect3DSurface9*  pSrcSurface,

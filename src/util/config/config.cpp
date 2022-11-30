@@ -735,6 +735,11 @@ namespace dxvk {
     { R"(\\indy\.exe$)", {{
       { "d3d9.enableDialogMode",            "True" },
     }} },
+    /* Tom Clancy's Splinter Cell                *
+     * Supports shadow buffers                   */
+    { R"(\\splintercell\.exe$)", {{
+      { "d3d8.useShadowBuffers",            "True" },
+    }} },
   }};
 
 

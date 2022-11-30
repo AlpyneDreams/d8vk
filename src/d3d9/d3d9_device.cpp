@@ -3840,6 +3840,11 @@ namespace dxvk {
       m_drefClamp &= ~(1u << StateSampler);
       m_drefClamp |= uint32_t(newTexture->IsUpgradedToD32f()) << StateSampler;
 
+      const uint32_t offset = StateSampler * 2;
+      m_drefScale &= ~(0b11u << offset);
+      if (m_drefScaling)
+        m_drefScale |= GetDepthBufferDrefScale(newTexture->Desc()->Format) << offset;
+
       const bool oldCube = m_cubeTextures & (1u << StateSampler);
       const bool newCube = newTexture->GetType() == D3DRTYPE_CUBETEXTURE;
       if (oldCube != newCube) {
@@ -6304,7 +6309,7 @@ namespace dxvk {
     const uint32_t nullTextureMask = usedSamplerMask & ~usedTextureMask;
     const uint32_t depthTextureMask = m_depthTextures & usedTextureMask;
     const uint32_t drefClampMask = m_drefClamp & depthTextureMask;
-    UpdateCommonSamplerSpec(nullTextureMask, depthTextureMask, drefClampMask);
+    UpdateCommonSamplerSpec(nullTextureMask, depthTextureMask, drefClampMask, m_drefScale);
 
     if (m_flags.test(D3D9DeviceFlag::DirtySharedPixelShaderData)) {
       m_flags.clr(D3D9DeviceFlag::DirtySharedPixelShaderData);
@@ -6883,6 +6888,8 @@ namespace dxvk {
 
         stage.Projected      = (ttff & D3DTTFF_PROJECTED) ? 1      : 0;
         stage.ProjectedCount = (ttff & D3DTTFF_PROJECTED) ? count  : 0;
+        
+        stage.DrefScale = D3D9DrefScale((m_drefScale >> samplerOffset) & 0b11u);
       }
 
       auto& stage0 = key.Stages[0].Contents;
@@ -7304,7 +7311,7 @@ namespace dxvk {
     UpdatePixelShaderSamplerSpec(0u, 0u, 0u);
     UpdateVertexBoolSpec(0u);
     UpdatePixelBoolSpec(0u);
-    UpdateCommonSamplerSpec(0u, 0u, 0u);
+    UpdateCommonSamplerSpec(0u, 0u, 0u, 0u);
 
     return D3D_OK;
   }
@@ -7500,10 +7507,11 @@ namespace dxvk {
   }
 
 
-  void D3D9DeviceEx::UpdateCommonSamplerSpec(uint32_t nullMask, uint32_t depthMask, uint32_t drefMask) {
+  void D3D9DeviceEx::UpdateCommonSamplerSpec(uint32_t nullMask, uint32_t depthMask, uint32_t drefMask, uint32_t drefScale) {
     bool dirty  = m_specInfo.set<SpecSamplerDepthMode>(depthMask);
          dirty |= m_specInfo.set<SpecSamplerNull>(nullMask);
          dirty |= m_specInfo.set<SpecDrefClamp>(drefMask);
+         dirty |= m_specInfo.set<SpecDrefScale>(drefScale);
 
     if (dirty)
       m_flags.set(D3D9DeviceFlag::DirtySpecializationEntries);
