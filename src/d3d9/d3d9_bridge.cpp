@@ -19,8 +19,9 @@ namespace dxvk {
     m_device->m_implicitSwapchain->SetApiName(name);
   }
 
-  void D3D9Bridge::SetDrefScalingEnabled(bool enabled) {
-    m_device->m_dxsoOptions.drefScaling = enabled;
+  void D3D9Bridge::SetShadowBuffersEnabled(bool enabled) {
+    m_device->m_dxsoOptions.drefScaling  = enabled;
+    m_device->m_dxsoOptions.shadowFilter = enabled;
   }
 
   HRESULT D3D9Bridge::UpdateTextureFromBuffer(

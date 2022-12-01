@@ -58,8 +58,9 @@ namespace dxvk {
       m_bridge->SetAPIName("D3D8");
     }
 
-    // Shadow buffers are implemented by scaling depth test reference values
-    m_bridge->SetDrefScalingEnabled(m_d3d8Options.useShadowBuffers);
+    // Shadow buffers are implemented by scaling
+    // depth test reference values and applying a 2x2 PCF.
+    m_bridge->SetShadowBuffersEnabled(m_d3d8Options.useShadowBuffers);
 
     // D3D8 Render states that aren't remapped
     // but should still be recorded by D3D9

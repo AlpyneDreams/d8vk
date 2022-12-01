@@ -59,6 +59,14 @@ namespace dxvk {
 
   void DoFixedFunctionAlphaTest(SpirvModule& spvModule, const D3D9AlphaTestContext& ctx);
 
+  uint32_t DoFixedFunctionShadowFilter(
+        SpirvModule&            module,
+        uint32_t                inSample,
+        uint32_t                sampledImage,
+        uint32_t                coordinates,
+        uint32_t                reference,
+  const SpirvImageOperands&     operands);
+
   // Returns a render state block
   uint32_t SetupRenderStateBlock(SpirvModule& spvModule, uint32_t count);
 
@@ -190,7 +198,8 @@ namespace dxvk {
 
         uint32_t     TextureBound : 1;
 
-        uint32_t      DrefScale : 2;
+        uint32_t     DrefScale      : 2;
+        uint32_t     ShadowFilter   : 1;
 
         // Included in here, read from Stage 0 for packing reasons
         // Affects all stages.

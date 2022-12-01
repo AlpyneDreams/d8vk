@@ -8,6 +8,7 @@ namespace dxvk {
   struct D3D8Options {
     /// Treat D24S8 and D16 as early NVIDIA shadow buffers that test
     /// reference values in the range [0..2^N - 1] where N is bit depth.
+    /// Also emulates hardware shadow filtering using a bilinear 2x2 PCF.
     bool useShadowBuffers = false;
 
     D3D8Options() {}

@@ -44,7 +44,7 @@ namespace dxvk {
 
     virtual void SetAPIName(const char* name);
 
-    virtual void SetDrefScalingEnabled(bool enabled);
+    virtual void SetShadowBuffersEnabled(bool enabled);
 
     virtual HRESULT UpdateTextureFromBuffer(
         IDirect3DSurface9*        pDestSurface,

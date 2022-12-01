@@ -50,8 +50,15 @@ namespace dxvk {
     /// Whether or not we can rely on robustness2 to handle oob constant access
     bool robustness2Supported;
 
-    /// Whether we should check SpecDrefScale at runtime to apply Dref scaling for depth buffers
+    /// Whether we should check SpecDrefScale at runtime to apply Dref scaling for depth
+    /// textures (D24S8 and D16). This allows compatability with games that expect a
+    /// different depth test range, which was typically a D3D8 quirk on early NVIDIA hardware.
     bool drefScaling = false;
+
+    /// Whether to perform 2x2 PCF when linearly sampling certain depth texture formats,
+    /// as done by early NVIDIA GPUs. The possibility of this behavior is also implied by
+    /// the spec for GL_ARB_shadow and various NVIDIA publications. 
+    bool shadowFilter = false;
   };
 
 }

@@ -3842,7 +3842,7 @@ namespace dxvk {
 
       const uint32_t offset = StateSampler * 2;
       m_drefScale &= ~(0b11u << offset);
-      if (m_dxsoOptions.drefScaling)
+      if (m_dxsoOptions.drefScaling || m_dxsoOptions.shadowFilter)
         m_drefScale |= GetDepthBufferDrefScale(newTexture->Desc()->Format) << offset;
 
       const bool oldCube = m_cubeTextures & (1u << StateSampler);
@@ -6889,7 +6889,10 @@ namespace dxvk {
         stage.Projected      = (ttff & D3DTTFF_PROJECTED) ? 1      : 0;
         stage.ProjectedCount = (ttff & D3DTTFF_PROJECTED) ? count  : 0;
         
-        stage.DrefScale = D3D9DrefScale((m_drefScale >> samplerOffset) & 0b11u);
+        if (m_dxsoOptions.drefScaling)
+          stage.DrefScale = D3D9DrefScale((m_drefScale >> samplerOffset) & 0b11u);
+        if (m_dxsoOptions.shadowFilter)
+          stage.ShadowFilter = (m_depthTextures & (1 << idx)) != 0;
       }
 
       auto& stage0 = key.Stages[0].Contents;
