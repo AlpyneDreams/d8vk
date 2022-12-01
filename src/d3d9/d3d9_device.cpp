@@ -3842,7 +3842,7 @@ namespace dxvk {
 
       const uint32_t offset = StateSampler * 2;
       m_drefScale &= ~(0b11u << offset);
-      if (m_drefScaling)
+      if (m_dxsoOptions.drefScaling)
         m_drefScale |= GetDepthBufferDrefScale(newTexture->Desc()->Format) << offset;
 
       const bool oldCube = m_cubeTextures & (1u << StateSampler);

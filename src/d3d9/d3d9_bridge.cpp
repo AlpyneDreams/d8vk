@@ -20,7 +20,7 @@ namespace dxvk {
   }
 
   void D3D9Bridge::SetDrefScalingEnabled(bool enabled) {
-    m_device->m_drefScaling = enabled;
+    m_device->m_dxsoOptions.drefScaling = enabled;
   }
 
   HRESULT D3D9Bridge::UpdateTextureFromBuffer(

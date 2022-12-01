@@ -49,6 +49,9 @@ namespace dxvk {
 
     /// Whether or not we can rely on robustness2 to handle oob constant access
     bool robustness2Supported;
+
+    /// Whether we should check SpecDrefScale at runtime to apply Dref scaling for depth buffers
+    bool drefScaling = false;
   };
 
 }

@@ -2881,18 +2881,20 @@ void DxsoCompiler::emitControlFlowGenericLoop(
         reference = m_module.opSelect(fType, clampDref, clampedDref, reference);
 
         // Scale Dref to [0..(2^N - 1)] for D24S8 and D16
-        uint32_t scaleDref = m_spec.get(m_module, m_specUbo, SpecDrefScale, samplerIdx * 2, 2);
-        uint32_t maxDref   = m_module.constf32(1.0f);
+        if (m_moduleInfo.options.drefScaling) {
+          uint32_t scaleDref = m_spec.get(m_module, m_specUbo, SpecDrefScale, samplerIdx * 2, 2);
+          uint32_t maxDref   = m_module.constf32(1.0f);
 
-        uint32_t isD16     = m_module.opIEqual(bool_t, scaleDref, m_module.constu32(DrefScale_D16));
-        uint32_t maxDref16 = m_module.constf32(GetDrefScaleFactor(DrefScale_D16));
-        maxDref            = m_module.opSelect(fType, isD16, maxDref16, maxDref);
+          uint32_t isD16     = m_module.opIEqual(bool_t, scaleDref, m_module.constu32(DrefScale_D16));
+          uint32_t maxDref16 = m_module.constf32(GetDrefScaleFactor(DrefScale_D16));
+          maxDref            = m_module.opSelect(fType, isD16, maxDref16, maxDref);
 
-        uint32_t isD24     = m_module.opIEqual(bool_t, scaleDref, m_module.constu32(DrefScale_D24S8));
-        uint32_t maxDref24 = m_module.constf32(GetDrefScaleFactor(DrefScale_D24S8));
-        maxDref            = m_module.opSelect(fType, isD24, maxDref24, maxDref);
+          uint32_t isD24     = m_module.opIEqual(bool_t, scaleDref, m_module.constu32(DrefScale_D24S8));
+          uint32_t maxDref24 = m_module.constf32(GetDrefScaleFactor(DrefScale_D24S8));
+          maxDref            = m_module.opSelect(fType, isD24, maxDref24, maxDref);
 
-        reference          = m_module.opFMul(fType, reference, maxDref);
+          reference          = m_module.opFMul(fType, reference, maxDref);
+        }
       }
 
       uint32_t fetch4 = 0;

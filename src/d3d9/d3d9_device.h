@@ -1245,7 +1245,6 @@ namespace dxvk {
     uint32_t                        m_textureTypes = 0;
     uint32_t                        m_projectionBitfield  = 0;
 
-    bool                            m_drefScaling = false;
     uint32_t                        m_drefScale   = 0;
 
     uint32_t                        m_dirtySamplerStates = 0;
