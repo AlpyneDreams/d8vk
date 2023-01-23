@@ -70,6 +70,9 @@ namespace dxvk {
       D3DRS_PATCHSEGMENTS
     );
 
+    // Mirrors how D3D9 handles the BackBufferCount
+    m_presentParams.BackBufferCount = std::max(m_presentParams.BackBufferCount, 1u);
+
     m_textures.fill(nullptr);
     m_streams.fill(D3D8VBO());
 
