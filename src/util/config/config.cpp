@@ -705,6 +705,11 @@ namespace dxvk {
     { R"(\\splintercell\.exe$)", {{
       { "d3d8.useShadowBuffers",            "True" },
     }} },
+    /* Anito: Defend a Land Enraged              */
+    { R"(\\Anito\.exe$)", {{
+      { "d3d9.memoryTrackTest",             "True" },
+      { "d3d9.maxAvailableMemory",          "1024" },
+    }} },
   }};
 
 
