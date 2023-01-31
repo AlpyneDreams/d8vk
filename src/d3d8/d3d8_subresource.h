@@ -27,16 +27,20 @@ namespace dxvk {
 
     // Refing subresources implicitly refs the container texture,
     ULONG STDMETHODCALLTYPE AddRef() final {
-      if (m_container != nullptr)
-        return m_container->AddRef();
+      // Holding references to the container texture breaks games like
+      // BloodRayne and BloodRayne 2 - disable it for now
+      //if (m_container != nullptr)
+        //return m_container->AddRef();
 
       return Resource::AddRef();
     }
 
     // and releasing them implicitly releases the texture.
     ULONG STDMETHODCALLTYPE Release() final {
-      if (m_container != nullptr)
-        return m_container->Release();
+      // Holding references to the container texture breaks games like
+      // BloodRayne and BloodRayne 2 - disable it for now
+      //if (m_container != nullptr)
+        //return m_container->Release();
 
       return Resource::Release();
     }
