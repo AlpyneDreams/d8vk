@@ -18,7 +18,7 @@ Name of the game, settings used etc.
 - GPU:
 - Driver:
 - Wine version: 
-- DXVK version: 
+- D8VK version: 
 
 ### Apitrace file(s)
 - Put a link here
@@ -26,6 +26,5 @@ Name of the game, settings used etc.
 For instructions on how to use apitrace, see: https://github.com/doitsujin/dxvk/wiki/Using-Apitrace
 
 ### Log files
+- d3d8.log:
 - d3d9.log:
-- d3d11.log:
-- dxgi.log:
