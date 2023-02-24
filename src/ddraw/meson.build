@@ -1,0 +1,63 @@
+ddraw_res = wrc_generator.process('version.rc')
+
+ddraw_src = [
+  'wrapper/dllmain.cpp',
+  'wrapper/IDirect3DDeviceX.cpp',
+  'wrapper/IDirect3DExecuteBuffer.cpp',
+  'wrapper/IDirect3DLight.cpp',
+  'wrapper/IDirect3DMaterialX.cpp',
+  'wrapper/IDirect3DTextureX.cpp',
+  'wrapper/IDirect3DVertexBufferX.cpp',
+  'wrapper/IDirect3DViewportX.cpp',
+  'wrapper/IDirect3DX.cpp',
+  'wrapper/IDirectDrawClipper.cpp',
+  'wrapper/IDirectDrawColorControl.cpp',
+  'wrapper/IDirectDrawFactory.cpp',
+  'wrapper/IDirectDrawGammaControl.cpp',
+  'wrapper/IDirectDrawPalette.cpp',
+  'wrapper/IDirectDrawSurfaceX.cpp',
+  'wrapper/IDirectDrawX.cpp',
+  'wrapper/InterfaceQuery.cpp',
+  'wrapper/Versions/IDirect3D.cpp',
+  'wrapper/Versions/IDirect3D2.cpp',
+  'wrapper/Versions/IDirect3D3.cpp',
+  'wrapper/Versions/IDirect3D7.cpp',
+  'wrapper/Versions/IDirect3DDevice.cpp',
+  'wrapper/Versions/IDirect3DDevice2.cpp',
+  'wrapper/Versions/IDirect3DDevice3.cpp',
+  'wrapper/Versions/IDirect3DDevice7.cpp',
+  'wrapper/Versions/IDirect3DMaterial.cpp',
+  'wrapper/Versions/IDirect3DMaterial2.cpp',
+  'wrapper/Versions/IDirect3DMaterial3.cpp',
+  'wrapper/Versions/IDirect3DTexture.cpp',
+  'wrapper/Versions/IDirect3DTexture2.cpp',
+  'wrapper/Versions/IDirect3DVertexBuffer.cpp',
+  'wrapper/Versions/IDirect3DVertexBuffer7.cpp',
+  'wrapper/Versions/IDirect3DViewport.cpp',
+  'wrapper/Versions/IDirect3DViewport2.cpp',
+  'wrapper/Versions/IDirect3DViewport3.cpp',
+  'wrapper/Versions/IDirectDraw.cpp',
+  'wrapper/Versions/IDirectDraw2.cpp',
+  'wrapper/Versions/IDirectDraw3.cpp',
+  'wrapper/Versions/IDirectDraw4.cpp',
+  'wrapper/Versions/IDirectDraw7.cpp',
+  'wrapper/Versions/IDirectDrawSurface.cpp',
+  'wrapper/Versions/IDirectDrawSurface2.cpp',
+  'wrapper/Versions/IDirectDrawSurface3.cpp',
+  'wrapper/Versions/IDirectDrawSurface4.cpp',
+  'wrapper/Versions/IDirectDrawSurface7.cpp',
+]
+
+if platform != 'windows'
+  lib_d3d9 = d3d9_dep
+endif
+
+ddraw_dll = shared_library('ddraw'+dll_ext, ddraw_src, ddraw_res,
+  name_prefix         : '',
+  dependencies        : [ lib_d3d9, util_dep, dxso_dep, dxvk_dep ],
+  include_directories : dxvk_include_path,
+  install             : true,
+  objects             : (not dxvk_is_msvc and platform == 'windows') ? 'ddraw'+def_spec_ext : [],
+  vs_module_defs      : 'ddraw'+def_spec_ext
+)
+
