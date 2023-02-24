@@ -552,7 +552,7 @@ namespace dxvk {
     HRESULT STDMETHODCALLTYPE GetTexture(DWORD Stage, IDirect3DBaseTexture8** ppTexture) {
       InitReturnPtr(ppTexture);
 
-      *ppTexture = m_textures[Stage];
+      *ppTexture = m_textures[Stage].ref();
 
       return D3D_OK;
     }
@@ -567,7 +567,7 @@ namespace dxvk {
 
       D3D8Texture2D* tex = static_cast<D3D8Texture2D*>(pTexture);
 
-      m_textures[Stage] = tex;
+      m_textures[Stage] = ref(tex);
 
       return GetD3D9()->SetTexture(Stage, D3D8Texture2D::GetD3D9Nullable(tex));
     }
@@ -852,8 +852,8 @@ namespace dxvk {
     };
     
     // Remember to fill() these in the constructor!
-    std::array<IDirect3DBaseTexture8*,  d8caps::MAX_TEXTURE_STAGES> m_textures;
-    std::array<D3D8VBO, d8caps::MAX_STREAMS>                        m_streams;
+    std::array<Com<IDirect3DBaseTexture8>, d8caps::MAX_TEXTURE_STAGES> m_textures;
+    std::array<D3D8VBO, d8caps::MAX_STREAMS>                           m_streams;
 
     Com<D3D8IndexBuffer>        m_indices;
     INT                         m_baseVertexIndex = 0;
