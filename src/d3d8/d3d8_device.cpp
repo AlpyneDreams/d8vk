@@ -555,4 +555,13 @@ namespace dxvk {
     return pPixelShader->GetFunction(pData, &SizeOfData);
   }
 
+  HRESULT STDMETHODCALLTYPE D3D8DeviceEx::BeginScene() {
+    HRESULT res = GetD3D9()->BeginScene();
+    if(unlikely(m_d3d8Options.allowNestedBeginScene)) {
+      return D3D_OK; 
+    } else {
+      return res;
+    }
+  }
+
 } // namespace dxvk

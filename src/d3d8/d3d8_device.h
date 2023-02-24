@@ -417,7 +417,7 @@ namespace dxvk {
       return D3D_OK;
     }
 
-    HRESULT STDMETHODCALLTYPE BeginScene() { return GetD3D9()->BeginScene(); }
+    HRESULT STDMETHODCALLTYPE BeginScene();
 
     HRESULT STDMETHODCALLTYPE EndScene() { return GetD3D9()->EndScene(); }
 

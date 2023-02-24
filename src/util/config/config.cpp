@@ -750,6 +750,11 @@ namespace dxvk {
     { R"(\\RF\.exe$)", {{
       { "d3d9.allowDirectBufferMapping",   "False" },
     }} },
+    /* Empires - Dawn of the Modern World        *
+     * Fixes main menu rendering                 */
+    { R"(\\Empires_DMW\.exe$)", {{
+      { "d3d8.allowNestedBeginScene",       "True" },
+    }} },
   }};
 
 
