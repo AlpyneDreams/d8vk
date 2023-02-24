@@ -6,6 +6,16 @@
 #include "../include/ddrawex.h"
 #include <d3d.h>
 
+namespace dxvk {
+    class D3D7Interface;
+    class D3D7Device;
+    class D3D7VertexBuffer;
+}
+
+#define m_IDirect3D7                dxvk::D3D7Interface
+#define m_IDirect3DDevice7          dxvk::D3D7Device
+#define m_IDirect3DVertexBuffer7    dxvk::D3D7VertexBuffer
+
 class m_IDirect3D;
 class m_IDirect3D2;
 class m_IDirect3D3;
