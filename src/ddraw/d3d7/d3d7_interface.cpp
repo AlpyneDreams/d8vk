@@ -16,42 +16,42 @@
 
 #include "..\wrapper\ddraw.h"
 
-HRESULT m_IDirect3D7::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT D3D7Interface::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
-ULONG m_IDirect3D7::AddRef()
+ULONG D3D7Interface::AddRef()
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirect3D7::Release()
+ULONG D3D7Interface::Release()
 {
 	return ProxyInterface->Release();
 }
 
-HRESULT m_IDirect3D7::EnumDevices(LPD3DENUMDEVICESCALLBACK7 a, LPVOID b)
+HRESULT D3D7Interface::EnumDevices(LPD3DENUMDEVICESCALLBACK7 a, LPVOID b)
 {
 	return ProxyInterface->EnumDevices7(a, b);
 }
 
-HRESULT m_IDirect3D7::CreateDevice(REFCLSID a, LPDIRECTDRAWSURFACE7 b, LPDIRECT3DDEVICE7 * c)
+HRESULT D3D7Interface::CreateDevice(REFCLSID a, LPDIRECTDRAWSURFACE7 b, LPDIRECT3DDEVICE7 * c)
 {
 	return ProxyInterface->CreateDevice(a, b, c, nullptr);
 }
 
-HRESULT m_IDirect3D7::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC a, LPDIRECT3DVERTEXBUFFER7 * b, DWORD c)
+HRESULT D3D7Interface::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC a, LPDIRECT3DVERTEXBUFFER7 * b, DWORD c)
 {
 	return ProxyInterface->CreateVertexBuffer(a, b, c, nullptr);
 }
 
-HRESULT m_IDirect3D7::EnumZBufferFormats(REFCLSID a, LPD3DENUMPIXELFORMATSCALLBACK b, LPVOID c)
+HRESULT D3D7Interface::EnumZBufferFormats(REFCLSID a, LPD3DENUMPIXELFORMATSCALLBACK b, LPVOID c)
 {
 	return ProxyInterface->EnumZBufferFormats(a, b, c);
 }
 
-HRESULT m_IDirect3D7::EvictManagedTextures()
+HRESULT D3D7Interface::EvictManagedTextures()
 {
 	return ProxyInterface->EvictManagedTextures();
 }

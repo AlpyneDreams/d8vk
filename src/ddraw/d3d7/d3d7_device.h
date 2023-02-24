@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DDevice7 : public IDirect3DDevice7, public AddressLookupTableObject
+class D3D7Device : public IDirect3DDevice7, public AddressLookupTableObject
 {
 private:
 	std::unique_ptr<m_IDirect3DDeviceX> ProxyInterface;
@@ -8,12 +8,12 @@ private:
 	REFIID WrapperID = IID_IDirect3DDevice7;
 
 public:
-	m_IDirect3DDevice7(IDirect3DDevice7 *aOriginal) : RealInterface(aOriginal)
+	D3D7Device(IDirect3DDevice7 *aOriginal) : RealInterface(aOriginal)
 	{
 		ProxyInterface = std::make_unique<m_IDirect3DDeviceX>(RealInterface, 7, this);
 		ProxyAddressLookupTable.SaveAddress(this, RealInterface);
 	}
-	~m_IDirect3DDevice7()
+	~D3D7Device()
 	{
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}

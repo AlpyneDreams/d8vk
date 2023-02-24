@@ -16,47 +16,47 @@
 
 #include "..\wrapper\ddraw.h"
 
-HRESULT m_IDirect3DVertexBuffer7::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT D3D7VertexBuffer::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
-ULONG m_IDirect3DVertexBuffer7::AddRef()
+ULONG D3D7VertexBuffer::AddRef()
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirect3DVertexBuffer7::Release()
+ULONG D3D7VertexBuffer::Release()
 {
 	return ProxyInterface->Release();
 }
 
-HRESULT m_IDirect3DVertexBuffer7::Lock(DWORD a, LPVOID * b, LPDWORD c)
+HRESULT D3D7VertexBuffer::Lock(DWORD a, LPVOID * b, LPDWORD c)
 {
 	return ProxyInterface->Lock(a, b, c);
 }
 
-HRESULT m_IDirect3DVertexBuffer7::Unlock()
+HRESULT D3D7VertexBuffer::Unlock()
 {
 	return ProxyInterface->Unlock();
 }
 
-HRESULT m_IDirect3DVertexBuffer7::ProcessVertices(DWORD a, DWORD b, DWORD c, LPDIRECT3DVERTEXBUFFER7 d, DWORD e, LPDIRECT3DDEVICE7 f, DWORD g)
+HRESULT D3D7VertexBuffer::ProcessVertices(DWORD a, DWORD b, DWORD c, LPDIRECT3DVERTEXBUFFER7 d, DWORD e, LPDIRECT3DDEVICE7 f, DWORD g)
 {
 	return ProxyInterface->ProcessVertices(a, b, c, d, e, f, g);
 }
 
-HRESULT m_IDirect3DVertexBuffer7::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC a)
+HRESULT D3D7VertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC a)
 {
 	return ProxyInterface->GetVertexBufferDesc(a);
 }
 
-HRESULT m_IDirect3DVertexBuffer7::Optimize(LPDIRECT3DDEVICE7 a, DWORD b)
+HRESULT D3D7VertexBuffer::Optimize(LPDIRECT3DDEVICE7 a, DWORD b)
 {
 	return ProxyInterface->Optimize(a, b);
 }
 
-HRESULT m_IDirect3DVertexBuffer7::ProcessVerticesStrided(DWORD a, DWORD b, DWORD c, LPD3DDRAWPRIMITIVESTRIDEDDATA d, DWORD e, LPDIRECT3DDEVICE7 f, DWORD g)
+HRESULT D3D7VertexBuffer::ProcessVerticesStrided(DWORD a, DWORD b, DWORD c, LPD3DDRAWPRIMITIVESTRIDEDDATA d, DWORD e, LPDIRECT3DDEVICE7 f, DWORD g)
 {
 	return ProxyInterface->ProcessVerticesStrided(a, b, c, d, e, f, g);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DVertexBuffer7 : public IDirect3DVertexBuffer7, public AddressLookupTableObject
+class D3D7VertexBuffer : public IDirect3DVertexBuffer7, public AddressLookupTableObject
 {
 private:
 	std::unique_ptr<m_IDirect3DVertexBufferX> ProxyInterface;
@@ -8,12 +8,12 @@ private:
 	REFIID WrapperID = IID_IDirect3DVertexBuffer7;
 
 public:
-	m_IDirect3DVertexBuffer7(IDirect3DVertexBuffer7 *aOriginal) : RealInterface(aOriginal)
+	D3D7VertexBuffer(IDirect3DVertexBuffer7 *aOriginal) : RealInterface(aOriginal)
 	{
 		ProxyInterface = std::make_unique<m_IDirect3DVertexBufferX>(RealInterface, 7, this);
 		ProxyAddressLookupTable.SaveAddress(this, RealInterface);
 	}
-	~m_IDirect3DVertexBuffer7()
+	~D3D7VertexBuffer()
 	{
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
