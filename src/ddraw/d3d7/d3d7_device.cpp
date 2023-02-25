@@ -55,6 +55,7 @@ namespace dxvk {
   HRESULT D3D7Device::SetRenderTarget(LPDIRECTDRAWSURFACE7 rt, DWORD flags) {
     DD7Surface* surf = static_cast<DD7Surface*>(rt);
 
+    // Reset to initial rendertarget.
     if (surf == m_rt) {
       GetD3D9()->SetRenderTarget(0, m_initialRT.ptr());
       GetD3D9()->SetDepthStencilSurface(m_initialDS.ptr());
@@ -250,7 +251,7 @@ namespace dxvk {
   }
 
   inline HRESULT D3D7Device::InitTexture(DD7Surface* surf, bool renderTarget) {
-    
+
     if (!surf)
       return D3D_OK;
 
@@ -263,7 +264,7 @@ namespace dxvk {
       surf->GetSurfaceDesc(&desc);
       DWORD mips = desc.dwMipMapCount + 1;
 
-      bool cubemap = desc.ddsCaps.dwCaps2 & DDSCAPS2_CUBEMAP;
+      bool complex = desc.ddsCaps.dwCaps & DDSCAPS_COMPLEX;
 
       HRESULT res;
 
@@ -272,8 +273,9 @@ namespace dxvk {
         PrintSurfaceStructure(surf, 1);
       }
 
-      if (cubemap) {
+      if (desc.ddsCaps.dwCaps2 & DDSCAPS2_CUBEMAP) {
         Com<d3d9::IDirect3DCubeTexture9> tex = nullptr;
+
         // TODO: Pool for non-RT cubemaps.
         res = GetD3D9()->CreateCubeTexture(
           desc.dwWidth, mips, renderTarget ? D3DUSAGE_RENDERTARGET : 0,
@@ -284,11 +286,13 @@ namespace dxvk {
         if (!renderTarget) {
           // TODO: Upload cubemap faces.
         }
-
+        
+        // Attach face 0 to this surface.
         Com<d3d9::IDirect3DSurface9> face = nullptr;
         tex->GetCubeMapSurface((d3d9::D3DCUBEMAP_FACES)0, 0, &face);
         surf->SetSurface(std::move(face));
 
+        // Attach sides 1-5 to each attached surface.
         surf->EnumAttachedSurfaces(tex.ptr(),
           [](IDirectDrawSurface7* subsurf, DDSURFACEDESC2* desc, void* ctx) -> HRESULT {
             d3d9::IDirect3DCubeTexture9* cube = (d3d9::IDirect3DCubeTexture9*)ctx;
@@ -323,24 +327,16 @@ namespace dxvk {
           res = GetD3D9()->CreateOffscreenPlainSurface(
             desc.dwWidth, desc.dwHeight, ConvertFormat(desc.ddpfPixelFormat),
             d3d9::D3DPOOL_DEFAULT, &rt, nullptr);
-          Logger::info("Created offplain surface.");
+          Logger::info("Created offscreen plain surface.");
         }
 
         else if (desc.ddsCaps.dwCaps & DDSCAPS_COMPLEX) {
-          /*IDirectDrawSurface7* newSurf = surf;
-          surf->EnumAttachedSurfaces(newSurf,
-            [](IDirectDrawSurface7* surf, DDSURFACEDESC2* desc, void* ctx) -> HRESULT {
-              IDirectDrawSurface7** pNewSurf = (IDirectDrawSurface7**)ctx;
-              *pNewSurf = surf;
-              return DDENUMRET_OK;
-            }
-          );*/
-
+          
           res = GetD3D9()->CreateRenderTarget(
             desc.dwWidth, desc.dwHeight, ConvertFormat(desc.ddpfPixelFormat),
             d3d9::D3DMULTISAMPLE_NONE, 0, FALSE, &rt, nullptr);
 
-          Logger::warn("Created generic RT from complex surface. (Not sure what to do.)");
+          Logger::warn("Unknown complex surface RT. Creating generic RT?");
         }
         
         else {
@@ -370,17 +366,6 @@ namespace dxvk {
         for (DWORD i = 0; i < mips; i++) {
           Com<d3d9::IDirect3DSurface9> level = nullptr;
           tex->GetSurfaceLevel(i, &level);
-
-
-          /*D3DLOCKED_RECT rect;
-          res = level->LockRect(i, &rect, NULL, 0);
-          if (FAILED(res)) return res;
-
-          surf->
-
-          level->UnlockRect();*/
-
-          res = GetD3D9()->ColorFill(level.ptr(), NULL, D3DCOLOR_ARGB(255, 255, 0, 0));
 
           HDC levelDC;
           res = level->GetDC(&levelDC);

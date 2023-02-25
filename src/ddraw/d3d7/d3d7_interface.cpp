@@ -95,15 +95,6 @@ namespace dxvk {
       HRESULT res = lpEnumDevicesCallback(&info.Description[0], &info.DeviceName[0], &desc, lpUserArg);
     }
 
-    /*ProxyInterface->EnumDevices7([](LPSTR description, LPSTR name, LPD3DDEVICEDESC7, LPVOID) -> HRESULT {
-      
-      Logger::info(str::format("DX7 Adapter ", name, " ", description));
-
-      return D3DENUMRET_OK;
-    }, lpUserArg);*/
-
-    //return ProxyInterface->EnumDevices7(lpEnumDevicesCallback, lpUserArg);
-
     return D3D_OK;
   }
 
@@ -141,7 +132,7 @@ namespace dxvk {
     Com<d3d9::IDirect3DDevice9> device = nullptr;
 
     HRESULT res = GetD3D9()->CreateDevice(
-      1,//(UINT)rclsid.Data1,
+      1,//(UINT)rclsid.Data1, // TODO: GPU selection
       d3d9::D3DDEVTYPE_HAL,
       hwnd,
       D3DCREATE_HARDWARE_VERTEXPROCESSING,
