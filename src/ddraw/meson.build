@@ -1,6 +1,7 @@
 ddraw_res = wrc_generator.process('version.rc')
 
 ddraw_src = [
+  'dd7_surface.cpp',
   'd3d7/d3d7_interface.cpp',
   'd3d7/d3d7_device.cpp',
   'd3d7/d3d7_buffer.cpp',
@@ -48,7 +49,7 @@ ddraw_src = [
   'wrapper/Versions/IDirectDrawSurface2.cpp',
   'wrapper/Versions/IDirectDrawSurface3.cpp',
   'wrapper/Versions/IDirectDrawSurface4.cpp',
-  'wrapper/Versions/IDirectDrawSurface7.cpp',
+  #'wrapper/Versions/IDirectDrawSurface7.cpp',
 ]
 
 if platform != 'windows'

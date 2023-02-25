@@ -7,11 +7,13 @@
 #include <d3d.h>
 
 namespace dxvk {
+    class DD7Surface;
     class D3D7Interface;
     class D3D7Device;
     class D3D7VertexBuffer;
 }
 
+#define m_IDirectDrawSurface7       dxvk::DD7Surface
 #define m_IDirect3D7                dxvk::D3D7Interface
 #define m_IDirect3DDevice7          dxvk::D3D7Device
 #define m_IDirect3DVertexBuffer7    dxvk::D3D7VertexBuffer
@@ -124,7 +126,7 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "Versions\IDirectDrawSurface2.h"
 #include "Versions\IDirectDrawSurface3.h"
 #include "Versions\IDirectDrawSurface4.h"
-#include "Versions\IDirectDrawSurface7.h"
+//#include "Versions\IDirectDrawSurface7.h"
 // DirectDraw Interfaces
 #include "IDirectDrawX.h"
 #include "IDirectDrawClipper.h"
@@ -136,6 +138,7 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 
 // DXVK Implementations
 
+#include "../dd7_surface.h"
 #include "../d3d7/d3d7_interface.h"
 #include "../d3d7/d3d7_device.h"
 #include "../d3d7/d3d7_buffer.h"

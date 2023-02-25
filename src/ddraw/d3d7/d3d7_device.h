@@ -1,8 +1,11 @@
 #pragma once
+#include "../d3d_include.h"
+#include "../d3d_wrapped_object.h"
+#include "../dd7_surface.h"
 
 namespace dxvk {
 
-  class D3D7Device : public IDirect3DDevice7, public AddressLookupTableObject {
+  class D3D7Device : public WrappedObject<d3d9::IDirect3DDevice9, IDirect3DDevice7>, public AddressLookupTableObject {
 
   private:
     std::unique_ptr<m_IDirect3DDeviceX> ProxyInterface;
@@ -10,9 +13,17 @@ namespace dxvk {
     REFIID WrapperID = IID_IDirect3DDevice7;
 
   public:
-    D3D7Device(IDirect3DDevice7 *aOriginal) : RealInterface(aOriginal) {
+    D3D7Device(
+        IDirect3DDevice7 *aOriginal,
+        d3d9::IDirect3DDevice9* aDevice9 = nullptr,
+        IDirectDrawSurface7* pRT = nullptr)
+    : Base(aDevice9)
+    , RealInterface(aOriginal)
+    , m_rt((DD7Surface*)pRT) {
       ProxyInterface = std::make_unique<m_IDirect3DDeviceX>(RealInterface, 7, this);
       ProxyAddressLookupTable.SaveAddress(this, RealInterface);
+      if (aDevice9)
+        Setup();
     }
     ~D3D7Device() {
       ProxyAddressLookupTable.DeleteAddress(this);
@@ -24,7 +35,6 @@ namespace dxvk {
     }
 
     /*** IUnknown methods ***/
-    STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID *ppvObj);
     STDMETHOD_(ULONG, AddRef)(THIS);
     STDMETHOD_(ULONG, Release)(THIS);
 
@@ -75,6 +85,20 @@ namespace dxvk {
     STDMETHOD(SetClipPlane)(THIS_ DWORD, D3DVALUE *);
     STDMETHOD(GetClipPlane)(THIS_ DWORD, D3DVALUE *);
     STDMETHOD(GetInfo)(THIS_ DWORD, LPVOID, DWORD);
+
+  private:
+    void Setup();
+    void UploadVertices(void* vertices, DWORD vertexCount, DWORD vertexSize);
+    void UploadIndices(void* indices, DWORD indexCount);
+    HRESULT InitTexture(DD7Surface* surf, bool renderTarget = false);
+
+    size_t m_vbSize = 0, m_ibSize = 0;
+    Com<d3d9::IDirect3DVertexBuffer9> m_VB;
+    Com<d3d9::IDirect3DIndexBuffer9>  m_IB;
+    DD7Surface* m_rt = nullptr;
+
+    Com<d3d9::IDirect3DSurface9> m_initialRT;
+    Com<d3d9::IDirect3DSurface9> m_initialDS;
   };
 
 }
