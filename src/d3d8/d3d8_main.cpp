@@ -3,7 +3,12 @@
 #include "d3d8_interface.h"
 
 namespace dxvk {
-  Logger Logger::s_instance("d3d8.log");
+
+  static struct LoggerD3D8 {
+    LoggerD3D8() {
+      Logger::setLogFile("d3d8.log");
+    }
+  } s_instance;
 
   HRESULT CreateD3D8(
           UINT         SDKVersion,

@@ -263,7 +263,6 @@ uninstall() {
   fi
 }
 
-$action d3d9
 $action d3d8
 
 if [ "$action" == "install" ] && ! [ -z "$PROTON" ]; then
@@ -295,10 +294,8 @@ if [ "$action" == "install" ] && ! [ -z "$PROTON" ]; then
     PROTON="$PROTON_D3D8"
   fi
 
-  # Install d3d8 and d3d9 to Proton
-  installFile "$PROTON/$proton_dxvk" "$dxvk_lib32" "d3d9" "d3d9.dll -> \$PROTON/files/lib/wine/dxvk/d3d9.dll"
+  # Install d3d8 to Proton
   installNewFile "$PROTON/$proton_dxvk" "$dxvk_lib32" "d3d8" "d3d8.dll -> \$PROTON/files/lib/wine/dxvk/d3d8.dll"
-  installFile "$PROTON/$proton_dxvk64" "$dxvk_lib32" "d3d9" "d3d9.dll -> \$PROTON/files/lib64/wine/dxvk/d3d9.dll"
   installNewFile "$PROTON/$proton_dxvk64" "$dxvk_lib32" "d3d8" "d3d8.dll -> \$PROTON/files/lib64/wine/dxvk/d3d8.dll"
 
   # Update ./proton to install d8vk
@@ -316,10 +313,8 @@ elif  ! [ -z "$PROTON" ]; then
     echo "Done! Make sure you restart Steam and make your game use something other than Proton-D8VK!"
     exit 1
   else 
-    # Uninstall d3d8/d3d9 from Proton
-    uninstallFile "$PROTON/$proton_dxvk" "$dxvk_lib32" "d3d9" "d3d9.dll.old -> \$PROTON/files/lib/wine/dxvk/d3d9.dll"
+    # Uninstall d3d8 from Proton
     uninstallNewFile "$PROTON/$proton_dxvk" "$dxvk_lib32" "d3d8" "Removing \$PROTON/files/lib/wine/dxvk/d3d8.dll"
-    uninstallFile "$PROTON/$proton_dxvk64" "$dxvk_lib32" "d3d9" "d3d9.dll.old -> \$PROTON/files/lib64/wine/dxvk/d3d9.dll"
     uninstallNewFile "$PROTON/$proton_dxvk64" "$dxvk_lib32" "d3d8" "Removing \$PROTON/files/lib64/wine/dxvk/d3d8.dll"
 
     # Revert ./proton to not install d8vk
