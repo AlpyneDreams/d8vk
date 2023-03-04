@@ -27,4 +27,3 @@ For instructions on how to use apitrace, see: https://github.com/doitsujin/dxvk/
 
 ### Log files
 - d3d8.log:
-- d3d9.log:
