@@ -6,11 +6,9 @@ namespace dxvk {
   
   Logger::Logger(const std::string& file_name)
   : m_minLevel(getMinLogLevel()) {
+    s_initialized = true;
     if (m_minLevel != LogLevel::None) {
-      m_fileName = getFileName(file_name);
-
-      if (!m_fileName.empty())
-        m_fileStream = std::ofstream(str::topath(m_fileName.c_str()).c_str());
+      setLogFile(file_name);
     }
   }
   
@@ -21,11 +19,22 @@ namespace dxvk {
   void Logger::setLogFile(const std::string& file_name) {
     if (s_instance.m_minLevel != LogLevel::None) {
       auto path = getFileName(file_name);
+      
+      static std::string s_overrideFileName = "";
+      if (!s_initialized) {
+        // logger hasn't initialized yet.
+        s_overrideFileName = path;
+        return;
+      } else if (!s_overrideFileName.empty()) {
+        // logger initializing, and we have an override.
+        path = s_overrideFileName;
+        s_overrideFileName = "";
+      }
 
       if (path == s_instance.m_fileName)
         return;
 
-      bool empty = s_instance.m_fileStream.tellp() == std::ios::beg;
+      bool empty = s_instance.m_fileStream && s_instance.m_fileStream.tellp() <= 0;
 
       if (!path.empty()) {
         // pause logging while we switch files
@@ -35,7 +44,7 @@ namespace dxvk {
         s_instance.m_fileStream.close();
       }
 
-      if (empty) // don't leave empty log files
+      if (empty && !s_instance.m_fileName.empty()) // don't leave empty log files
         std::remove(s_instance.m_fileName.c_str());
 
       s_instance.m_fileName = path;

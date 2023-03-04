@@ -62,6 +62,8 @@ namespace dxvk {
     static std::string getFileName(
       const std::string& base);
 
+    static inline bool s_initialized = false;
+
   };
   
 }
