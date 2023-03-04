@@ -46,6 +46,8 @@ namespace dxvk {
 
     virtual void SetShadowBuffersEnabled(bool enabled);
 
+    virtual void ForceEndScene();
+
     virtual HRESULT UpdateTextureFromBuffer(
         IDirect3DSurface9*        pDestSurface,
         IDirect3DSurface9*        pSrcSurface,

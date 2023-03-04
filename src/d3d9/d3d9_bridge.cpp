@@ -24,6 +24,10 @@ namespace dxvk {
     m_device->m_dxsoOptions.shadowFilter = enabled;
   }
 
+  void D3D9Bridge::ForceEndScene() {
+    m_device->m_flags.clr(D3D9DeviceFlag::InScene);
+  }
+
   HRESULT D3D9Bridge::UpdateTextureFromBuffer(
         IDirect3DSurface9*  pDestSurface,
         IDirect3DSurface9*  pSrcSurface,

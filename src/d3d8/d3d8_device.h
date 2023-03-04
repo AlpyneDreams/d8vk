@@ -817,6 +817,8 @@ namespace dxvk {
     inline bool ShouldRecord() { return m_recorder != nullptr; }
 
     inline void ResetState() {
+      // Resetting implicitly ends scenes started by BeginScene
+      m_bridge->ForceEndScene();
       // Purge cached objects
       // TODO: Some functions may need to be called here (e.g. SetTexture, etc.)
       // in case Reset can be recorded by state blocks and other things.
