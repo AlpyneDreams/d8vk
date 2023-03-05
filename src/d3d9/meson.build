@@ -50,13 +50,26 @@ d3d9_src = [
 
 d3d9_ld_args      = []
 d3d9_link_depends = []
+d3d9_objects      = []
 
 if platform != 'windows'
   d3d9_ld_args      += [ '-Wl,--version-script', join_paths(meson.current_source_dir(), 'd3d9.sym') ]
   d3d9_link_depends += files('d3d9.sym')
 endif
 
-d3d9_lib = both_libraries('d3d9'+dll_ext, d3d9_src, glsl_generator.process(d3d9_shaders), d3d9_res,
+if dxvk_is_msvc
+  # workaround for mesonbuild/meson#9235 on VS backend
+  d3d9_res = configure_file(
+    input   : 'version.rc',
+    output  : 'version.res',
+    command : [ wrc, '/fo', '@OUTPUT@', '@INPUT@' ],
+  )
+  d3d9_objects += d3d9_res
+else
+  d3d9_src += d3d9_res
+endif
+
+d3d9_lib = both_libraries('d3d9'+dll_ext, d3d9_src, glsl_generator.process(d3d9_shaders),
   name_prefix         : dxvk_name_prefix,
   dependencies        : [ dxso_dep, dxvk_dep ],
   include_directories : dxvk_include_path,
@@ -64,6 +77,7 @@ d3d9_lib = both_libraries('d3d9'+dll_ext, d3d9_src, glsl_generator.process(d3d9_
   vs_module_defs      : 'd3d9'+def_spec_ext,
   link_args           : d3d9_ld_args,
   link_depends        : [ d3d9_link_depends ],
+  objects             : d3d9_objects
 )
 
 d3d9_dll = d3d9_lib.get_shared_lib()
