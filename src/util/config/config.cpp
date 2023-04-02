@@ -750,6 +750,12 @@ namespace dxvk {
     { R"(\\RF\.exe$)", {{
       { "d3d9.allowDirectBufferMapping",   "False" },
     }} },
+    /* Supreme Ruler 2020 Gold                   *
+     * Fixes crashing when switching zoom levels */
+    { R"(\\SupremeRuler2020GC\.exe$)", {{
+      { "d3d9.memoryTrackTest",             "True" },
+      { "d3d9.maxAvailableMemory",          "1024" },
+    }} },
   }};
 
 
