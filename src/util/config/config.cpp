@@ -757,6 +757,10 @@ namespace dxvk {
     { R"(\\Commandos3\.exe$)", {{
       { "d3d9.allowDirectBufferMapping",   "False" },
     }} },
+    /* Motor City Online                         */
+    { R"(\\MCity_d\.exe$)", {{
+      { "d3d9.apitraceMode",                "True" },
+    }} },
   }};
 
 
