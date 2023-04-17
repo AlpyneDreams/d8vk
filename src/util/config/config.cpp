@@ -748,6 +748,7 @@ namespace dxvk {
     /* Motor City Online                         */
     { R"(\\MCity_d\.exe$)", {{
       { "d3d9.apitraceMode",                "True" },
+      { "d3d8.managedBufferPlacement",     "False" },
     }} },
   }};
 
