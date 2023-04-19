@@ -390,6 +390,8 @@ namespace dxvk {
             m_renderTarget = surf;
           }
           m_renderTarget.ref();
+          if(m_renderTargetPrev.ptr() != nullptr)
+            m_renderTargetPrev->Release();
         }
       }
 
@@ -408,6 +410,8 @@ namespace dxvk {
           m_depthStencil = zStencil;
         }
         m_depthStencil.ref();
+        if(m_depthStencilPrev.ptr() != nullptr)
+          m_depthStencilPrev->Release();
       }
 
       return D3D_OK;
