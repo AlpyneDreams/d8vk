@@ -606,6 +606,8 @@ namespace dxvk {
       if(unlikely(m_textures[Stage].ptr() == tex))
         return D3D_OK;
 
+      StateChange();
+
       m_textures[Stage] = tex;
 
       return GetD3D9()->SetTexture(Stage, D3D8Texture2D::GetD3D9Nullable(tex));
@@ -692,7 +694,8 @@ namespace dxvk {
             UINT             PrimitiveCount,
       const void*            pVertexStreamZeroData,
             UINT             VertexStreamZeroStride) {
-      
+      StateChange();
+
       // Stream 0 is set to null by this call
       m_streams[0] = D3D8VBO {nullptr, 0};
 
@@ -708,6 +711,7 @@ namespace dxvk {
             D3DFORMAT        IndexDataFormat,
       const void*            pVertexStreamZeroData,
             UINT             VertexStreamZeroStride) {
+      StateChange();
 
       // Stream 0 and the index buffer are set to null by this call
       m_streams[0] = D3D8VBO {nullptr, 0};
@@ -783,8 +787,11 @@ namespace dxvk {
 
       D3D8VertexBuffer* buffer = static_cast<D3D8VertexBuffer*>(pStreamData);
 
+      StateChange();
+
       m_streams[StreamNumber] = D3D8VBO {buffer, Stride};
 
+      // DXVK: Never fails
       return GetD3D9()->SetStreamSource(StreamNumber, D3D8VertexBuffer::GetD3D9Nullable(buffer), 0, Stride);
     }
 
@@ -816,6 +823,8 @@ namespace dxvk {
       if (unlikely(ShouldRecord()))
         return m_recorder->SetIndices(pIndexData, BaseVertexIndex);
 
+      StateChange();
+
       // used by DrawIndexedPrimitive
       m_baseVertexIndex = static_cast<INT>(BaseVertexIndex);
 
@@ -823,6 +832,7 @@ namespace dxvk {
 
       m_indices = buffer;
 
+      // DXVK: Never fails
       return GetD3D9()->SetIndices(D3D8IndexBuffer::GetD3D9Nullable(buffer));
     }
 
