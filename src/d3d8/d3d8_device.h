@@ -128,13 +128,17 @@ namespace dxvk {
 
 
     HRESULT STDMETHODCALLTYPE Reset(D3DPRESENT_PARAMETERS* pPresentationParameters) {
-      m_presentParams = *pPresentationParameters;
+      // Resetting implicitly ends scenes started by BeginScene
+      m_bridge->ForceEndScene();
 
       d3d9::D3DPRESENT_PARAMETERS params = ConvertPresentParameters9(pPresentationParameters);
       HRESULT res = GetD3D9()->Reset(&params);
 
-      if (SUCCEEDED(res))
-        ResetState();
+      if (FAILED(res))
+        return res;
+
+      m_presentParams = *pPresentationParameters;
+      ResetState();
 
       return res;
     }
@@ -859,9 +863,6 @@ namespace dxvk {
     inline bool ShouldRecord() { return m_recorder != nullptr; }
 
     inline void ResetState() {
-      // Resetting implicitly ends scenes started by BeginScene
-      m_bridge->ForceEndScene();
-
       // Mirrors how D3D9 handles the BackBufferCount
       m_presentParams.BackBufferCount = std::max(m_presentParams.BackBufferCount, 1u);
 
