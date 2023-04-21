@@ -44,6 +44,8 @@ namespace dxvk {
 
     virtual void SetAPIName(const char* name);
 
+    virtual void AddBatchCalls(uint32_t count);
+
     virtual void SetShadowBuffersEnabled(bool enabled);
 
     virtual void ForceEndScene();

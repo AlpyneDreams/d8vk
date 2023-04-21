@@ -12,6 +12,8 @@ namespace dxvk {
    */
   enum class DxvkStatCounter : uint32_t {
     CmdDrawCalls,             ///< Number of draw calls
+    CmdBatches,               ///< Number of draw batches
+    CmdDrawCallsBatched,      ///< Number of draw calls batched
     CmdDispatchCalls,         ///< Number of compute calls
     CmdRenderPassCount,       ///< Number of render passes
     CmdBarrierCount,          ///< Number of pipeline barriers

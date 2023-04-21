@@ -391,6 +391,10 @@ namespace dxvk::hud {
 
     if (elapsed.count() >= UpdateInterval) {
       m_gpCount = diffCounters.getCtr(DxvkStatCounter::CmdDrawCalls);
+      m_btCount = diffCounters.getCtr(DxvkStatCounter::CmdBatches);
+      m_bcCount = diffCounters.getCtr(DxvkStatCounter::CmdDrawCallsBatched);
+      if (m_btCount)
+        m_abCount = m_bcCount / m_btCount;
       m_cpCount = diffCounters.getCtr(DxvkStatCounter::CmdDispatchCalls);
       m_rpCount = diffCounters.getCtr(DxvkStatCounter::CmdRenderPassCount);
       m_pbCount = diffCounters.getCtr(DxvkStatCounter::CmdBarrierCount);
@@ -415,6 +419,42 @@ namespace dxvk::hud {
       { position.x + 192.0f, position.y },
       { 1.0f, 1.0f, 1.0f, 1.0f },
       str::format(m_gpCount));
+    
+    if (m_btCount) {
+      position.y += 20.0f;
+      renderer.drawText(16.0f,
+        { position.x, position.y },
+        { 0.25f, 0.5f, 1.0f, 1.0f },
+        "Batch calls:");
+      
+      renderer.drawText(16.0f,
+        { position.x + 192.0f, position.y },
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+        str::format(m_btCount));
+
+      position.y += 20.0f;
+      renderer.drawText(16.0f,
+        { position.x, position.y },
+        { 0.25f, 0.5f, 1.0f, 1.0f },
+        "Batched draws:");
+      
+      renderer.drawText(16.0f,
+        { position.x + 192.0f, position.y },
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+        str::format(m_bcCount));
+
+      position.y += 20.0f;
+      renderer.drawText(16.0f,
+        { position.x, position.y },
+        { 0.25f, 0.5f, 1.0f, 1.0f },
+        "Average batch:");
+      
+      renderer.drawText(16.0f,
+        { position.x + 192.0f, position.y },
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+        str::format(m_abCount));
+    }
+
     
     position.y += 20.0f;
     renderer.drawText(16.0f,

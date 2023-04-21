@@ -19,6 +19,13 @@ namespace dxvk {
     m_device->m_implicitSwapchain->SetApiName(name);
   }
 
+  void D3D9Bridge::AddBatchCalls(uint32_t count) {
+    if (count > 1) {
+      m_device->GetDXVKDevice()->addStatCtr(DxvkStatCounter::CmdBatches, 1);
+      m_device->GetDXVKDevice()->addStatCtr(DxvkStatCounter::CmdDrawCallsBatched, count);
+    }
+  }
+
   void D3D9Bridge::SetShadowBuffersEnabled(bool enabled) {
     m_device->m_dxsoOptions.drefScaling  = enabled;
     m_device->m_dxsoOptions.shadowFilter = enabled;

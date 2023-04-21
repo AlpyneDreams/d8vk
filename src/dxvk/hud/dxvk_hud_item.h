@@ -299,6 +299,9 @@ namespace dxvk::hud {
     DxvkStatCounters  m_prevCounters;
 
     uint64_t          m_gpCount = 0;
+    uint64_t          m_btCount = 0;
+    uint64_t          m_bcCount = 0;
+    uint64_t          m_abCount = 0;
     uint64_t          m_cpCount = 0;
     uint64_t          m_rpCount = 0;
     uint64_t          m_pbCount = 0;
