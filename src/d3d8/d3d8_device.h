@@ -833,12 +833,13 @@ namespace dxvk {
       if (unlikely(ShouldRecord()))
         return m_recorder->SetIndices(pIndexData, BaseVertexIndex);
 
-      StateChange();
-
       // used by DrawIndexedPrimitive
       m_baseVertexIndex = static_cast<INT>(BaseVertexIndex);
 
       D3D8IndexBuffer* buffer = static_cast<D3D8IndexBuffer*>(pIndexData);
+
+      if (ShouldBatch())
+        m_batcher->SetIndices(buffer, m_baseVertexIndex);
 
       m_indices = buffer;
 
