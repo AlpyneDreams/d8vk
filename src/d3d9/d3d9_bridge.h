@@ -95,8 +95,8 @@ namespace dxvk {
   // Get a bridge interface to D3D9 (D3D9Bridge, D3D9InterfaceBridge).
   // Pass this the relevant D3D9 object.
   template <typename B, typename T = typename B::Type>
-  B* GetD3D9Bridge(T* object) {
-    B* pointer;
+  Com<B> GetD3D9Bridge(T* object) {
+    Com<B> pointer = nullptr;
     if (FAILED(object->QueryInterface(__uuidof(B), (void**)&pointer))) {
       Logger::err("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge.");
       throw DxvkError("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge.");
