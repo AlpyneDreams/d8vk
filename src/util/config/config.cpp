@@ -786,6 +786,7 @@ namespace dxvk {
       { "d3d9.enableDialogMode",            "True" },
       { "d3d9.apitraceMode",                "True" },
       { "d3d8.managedBufferPlacement",     "False" },
+      { "d3d8.batching",                    "True" },
     }} },
     /* Need for Speed: High Stakes / Road         *
        Challenge (with the "Modern Patch") -      *
@@ -796,6 +797,7 @@ namespace dxvk {
       { "d3d9.memoryTrackTest",             "True" },
       { "d3d9.maxAvailableMemory",           "256" },
       { "d3d8.managedBufferPlacement",     "False" },
+      { "d3d8.batching",                    "True" },
     }} },
   }};
 
