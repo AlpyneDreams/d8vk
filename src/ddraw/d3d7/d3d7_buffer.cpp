@@ -22,14 +22,6 @@ namespace dxvk {
     return ProxyInterface->QueryInterface(riid, ppvObj);
   }
 
-  ULONG D3D7VertexBuffer::AddRef() {
-    return ProxyInterface->AddRef();
-  }
-
-  ULONG D3D7VertexBuffer::Release() {
-    return ProxyInterface->Release();
-  }
-
   HRESULT D3D7VertexBuffer::Lock(DWORD a, LPVOID *b, LPDWORD c) {
     return ProxyInterface->Lock(a, b, c);
   }

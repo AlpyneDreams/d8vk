@@ -24,10 +24,6 @@ namespace dxvk {
       ProxyAddressLookupTable.DeleteAddress(this);
     }
 
-    /*** IUnknown methods ***/
-    STDMETHOD_(ULONG, AddRef)(THIS);
-    STDMETHOD_(ULONG, Release)(THIS);
-
     /*** IDirect3D7 methods ***/
     STDMETHOD(EnumDevices)(THIS_ LPD3DENUMDEVICESCALLBACK7, LPVOID);
     STDMETHOD(CreateDevice)(THIS_ REFCLSID, LPDIRECTDRAWSURFACE7, LPDIRECT3DDEVICE7 *);

@@ -12,15 +12,6 @@ namespace dxvk {
     }
   } s_instance;
 
-
-  ULONG D3D7Interface::AddRef() {
-    return ProxyInterface->AddRef();
-  }
-
-  ULONG D3D7Interface::Release() {
-    return ProxyInterface->Release();
-  }
-
   HRESULT D3D7Interface::EnumDevices(LPD3DENUMDEVICESCALLBACK7 lpEnumDevicesCallback, LPVOID lpUserArg) {
 
     UINT count = GetD3D9()->GetAdapterCount();

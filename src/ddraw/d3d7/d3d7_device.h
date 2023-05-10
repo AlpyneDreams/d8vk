@@ -34,10 +34,6 @@ namespace dxvk {
       return RealInterface;
     }
 
-    /*** IUnknown methods ***/
-    STDMETHOD_(ULONG, AddRef)(THIS);
-    STDMETHOD_(ULONG, Release)(THIS);
-
     /*** IDirect3DDevice7 methods ***/
     STDMETHOD(GetCaps)(THIS_ LPD3DDEVICEDESC7);
     STDMETHOD(EnumTextureFormats)(THIS_ LPD3DENUMPIXELFORMATSCALLBACK, LPVOID);

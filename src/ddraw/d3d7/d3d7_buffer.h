@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../d3d_wrapped_object.h"
+
 namespace dxvk {
 
-  class D3D7VertexBuffer : public IDirect3DVertexBuffer7, public AddressLookupTableObject {
+  class D3D7VertexBuffer : public D3DObject<IDirect3DVertexBuffer7>, public AddressLookupTableObject {
 
   private:
     std::unique_ptr<m_IDirect3DVertexBufferX> ProxyInterface;
@@ -25,8 +27,6 @@ namespace dxvk {
 
     /*** IUnknown methods ***/
     STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID *ppvObj);
-    STDMETHOD_(ULONG, AddRef)(THIS);
-    STDMETHOD_(ULONG, Release)(THIS);
 
     /*** IDirect3DVertexBuffer methods ***/
     STDMETHOD(Lock)(THIS_ DWORD, LPVOID *, LPDWORD);

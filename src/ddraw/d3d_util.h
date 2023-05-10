@@ -34,7 +34,6 @@ namespace dxvk {
     return stride * sizeof(float);
   }
 
-  // TODO: Validate...
   inline unsigned GetPrimitiveSize(D3DPRIMITIVETYPE PrimitiveType) {
     switch (PrimitiveType) {
       case D3DPT_POINTLIST:     return 1;

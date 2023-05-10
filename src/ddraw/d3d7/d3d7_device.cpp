@@ -12,16 +12,6 @@ namespace dxvk {
     GetD3D9Bridge<D3D9Bridge>(GetD3D9())->SetAPIName("D3D7");
   }
 
-  ULONG D3D7Device::AddRef() {
-	  GetD3D9()->AddRef();
-    return ProxyInterface->AddRef();
-  }
-
-  ULONG D3D7Device::Release() {
-	  GetD3D9()->Release();
-    return ProxyInterface->Release();
-  }
-
   HRESULT D3D7Device::GetCaps(LPD3DDEVICEDESC7 a) {
     return ProxyInterface->GetCaps(a);
   }

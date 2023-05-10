@@ -5,8 +5,12 @@
 
 namespace dxvk {
 
+  // TODO: Do D3D7 and down clamp their refcounts?
+  template <typename T>
+  using D3DObject = ComObjectClamp<T>;
+
   template <typename D3D9Type, typename D3DType>
-  class WrappedObject : public ComObjectClamp<D3DType> {
+  class WrappedObject : public D3DObject<D3DType> {
 
   public:
     using Base = WrappedObject<D3D9Type, D3DType>;
