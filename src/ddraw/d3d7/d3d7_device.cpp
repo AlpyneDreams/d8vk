@@ -9,12 +9,6 @@ namespace dxvk {
     GetD3D9()->GetRenderTarget(0, &m_initialRT);
     GetD3D9()->GetDepthStencilSurface(&m_initialDS);
 
-    m_vbSize = 8 * 1024 * 1024;
-    GetD3D9()->CreateVertexBuffer(m_vbSize, D3DUSAGE_DYNAMIC, 0, d3d9::D3DPOOL_DEFAULT, &m_VB, nullptr);
-
-    m_ibSize = 8 * 1024 * 1024;
-    GetD3D9()->CreateIndexBuffer(m_ibSize, D3DUSAGE_DYNAMIC, d3d9::D3DFMT_INDEX16, d3d9::D3DPOOL_DEFAULT, &m_IB, nullptr);
-  
     GetD3D9Bridge<D3D9Bridge>(GetD3D9())->SetAPIName("D3D7");
   }
 
@@ -147,43 +141,18 @@ namespace dxvk {
     return ProxyInterface->PreLoad(a);
   }
 
-  inline void D3D7Device::UploadVertices(void* vertices, DWORD vertexCount, DWORD vertexSize) {
-    size_t size = vertexCount * vertexSize;
-
-    if (size > m_vbSize) {
-      Logger::err("Draw*Primitive: vertex buffer too small. Please make me bigger!");
-    }
-
-    void* pData = nullptr;
-    m_VB->Lock(0, size, &pData, D3DLOCK_DISCARD);
-    memcpy(pData, vertices, size);
-    m_VB->Unlock();
-  }
-
-  void D3D7Device::UploadIndices(void* indices, DWORD indexCount) {
-    size_t size = indexCount * sizeof(WORD);
-
-    if (size > m_ibSize) {
-      Logger::err("DrawIndexedPrimitive: index buffer too small. Please make me bigger!");
-    }
-
-    void* pData = nullptr;
-    m_IB->Lock(0, size, &pData, D3DLOCK_DISCARD);
-    memcpy(pData, indices, size);
-    m_IB->Unlock();
-  }
-
   HRESULT D3D7Device::DrawPrimitive(
 	    D3DPRIMITIVETYPE  dptPrimitiveType,
 	    DWORD             dwVertexTypeDesc,
 	    LPVOID            lpVertices,
 	    DWORD             dwVertexCount,
 	    DWORD             dwFlags) {
-    size_t vertexSize = GetFVFSize(dwVertexTypeDesc);
-    UploadVertices(lpVertices, dwVertexCount, vertexSize);
-    GetD3D9()->SetStreamSource(0, m_VB.ptr(), 0, vertexSize);
     GetD3D9()->SetFVF(dwVertexTypeDesc);
-    GetD3D9()->DrawPrimitive((d3d9::D3DPRIMITIVETYPE)dptPrimitiveType, 0, dwVertexCount / GetPrimitiveSize(dptPrimitiveType));
+    GetD3D9()->DrawPrimitiveUP(
+      d3d9::D3DPRIMITIVETYPE(dptPrimitiveType),
+      dwVertexCount / GetPrimitiveSize(dptPrimitiveType),
+      lpVertices,
+      GetFVFSize(dwVertexTypeDesc));
 	  return ProxyInterface->DrawPrimitive(dptPrimitiveType, dwVertexTypeDesc, lpVertices, dwVertexCount, dwFlags);
   }
 
@@ -195,15 +164,16 @@ namespace dxvk {
       LPWORD            lpwIndices,
       DWORD             dwIndexCount,
       DWORD             dwFlags) {
-    size_t vertexSize = GetFVFSize(dwVertexTypeDesc);
-    UploadVertices(lpvVertices, dwVertexCount, vertexSize);
-    UploadIndices(lpwIndices, dwIndexCount);
-    GetD3D9()->SetStreamSource(0, m_VB.ptr(), 0, vertexSize);
-    GetD3D9()->SetIndices(m_IB.ptr());
     GetD3D9()->SetFVF(dwVertexTypeDesc);
-    GetD3D9()->DrawIndexedPrimitive(
-      (d3d9::D3DPRIMITIVETYPE)dptPrimitiveType, 0, 0, dwVertexCount,
-      0, dwIndexCount / GetPrimitiveSize(dptPrimitiveType));
+    GetD3D9()->DrawIndexedPrimitiveUP(
+      d3d9::D3DPRIMITIVETYPE(dptPrimitiveType),
+      0,
+      dwVertexCount,
+      dwIndexCount / GetPrimitiveSize(dptPrimitiveType),
+      lpwIndices,
+      d3d9::D3DFMT_INDEX16,
+      lpvVertices,
+      GetFVFSize(dwVertexTypeDesc));
 
     return ProxyInterface->DrawIndexedPrimitive(
       dptPrimitiveType,

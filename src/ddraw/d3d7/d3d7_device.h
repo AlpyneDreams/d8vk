@@ -92,9 +92,6 @@ namespace dxvk {
     void UploadIndices(void* indices, DWORD indexCount);
     HRESULT InitTexture(DD7Surface* surf, bool renderTarget = false);
 
-    size_t m_vbSize = 0, m_ibSize = 0;
-    Com<d3d9::IDirect3DVertexBuffer9> m_VB;
-    Com<d3d9::IDirect3DIndexBuffer9>  m_IB;
     DD7Surface* m_rt = nullptr;
 
     Com<d3d9::IDirect3DSurface9> m_initialRT;
