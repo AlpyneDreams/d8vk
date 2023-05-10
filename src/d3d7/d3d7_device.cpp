@@ -9,7 +9,23 @@ namespace dxvk {
     GetD3D9()->GetRenderTarget(0, &m_initialRT);
     GetD3D9()->GetDepthStencilSurface(&m_initialDS);
 
+    m_ibSize = 8 * 1024 * 1024;
+    GetD3D9()->CreateIndexBuffer(m_ibSize, D3DUSAGE_DYNAMIC, d3d9::D3DFMT_INDEX16, d3d9::D3DPOOL_DEFAULT, &m_IB, nullptr);
+
     GetD3D9Bridge<D3D9Bridge>(GetD3D9())->SetAPIName("D3D7");
+  }
+
+  void D3D7Device::UploadIndices(void* indices, DWORD indexCount) {
+    size_t size = indexCount * sizeof(WORD);
+
+    if (size > m_ibSize) {
+      Logger::err("DrawIndexedPrimitive: index buffer too small. Please make me bigger!");
+    }
+
+    void* pData = nullptr;
+    m_IB->Lock(0, size, &pData, D3DLOCK_DISCARD);
+    memcpy(pData, indices, size);
+    m_IB->Unlock();
   }
 
   HRESULT D3D7Device::GetCaps(LPD3DDEVICEDESC7 a) {
@@ -193,13 +209,44 @@ namespace dxvk {
     return ProxyInterface->DrawIndexedPrimitiveStrided(a, b, c, d, e, f, g);
   }
 
-  HRESULT D3D7Device::DrawPrimitiveVB(D3DPRIMITIVETYPE a, LPDIRECT3DVERTEXBUFFER7 b, DWORD c, DWORD d, DWORD e) {
-    return ProxyInterface->DrawPrimitiveVB(a, b, c, d, e);
+  HRESULT D3D7Device::DrawPrimitiveVB(
+      D3DPRIMITIVETYPE        PrimitiveType,
+      LPDIRECT3DVERTEXBUFFER7 VB,
+      DWORD                   StartVertex,
+      DWORD                   NumVertices,
+      DWORD                   Flags) {
+
+    D3D7VertexBuffer* vb = static_cast<D3D7VertexBuffer*>(VB);
+    GetD3D9()->SetFVF(vb->GetFVF());
+    GetD3D9()->SetStreamSource(0, vb->GetD3D9(), 0, vb->GetStride());
+    GetD3D9()->DrawPrimitive(
+      d3d9::D3DPRIMITIVETYPE(PrimitiveType),
+      StartVertex,
+      NumVertices / GetPrimitiveSize(PrimitiveType));
+    return ProxyInterface->DrawPrimitiveVB(PrimitiveType, VB, StartVertex, NumVertices, Flags);
   }
 
-  HRESULT D3D7Device::DrawIndexedPrimitiveVB(D3DPRIMITIVETYPE a, LPDIRECT3DVERTEXBUFFER7 b, DWORD c, DWORD d, LPWORD e,
-                                             DWORD f, DWORD g) {
-    return ProxyInterface->DrawIndexedPrimitiveVB(a, b, c, d, e, f, g);
+  HRESULT D3D7Device::DrawIndexedPrimitiveVB(
+      D3DPRIMITIVETYPE        PrimitiveType,
+      LPDIRECT3DVERTEXBUFFER7 VB,
+      DWORD                   StartVertex,
+      DWORD                   NumVertices,
+      LPWORD                  Indices,
+      DWORD                   IndexCount,
+      DWORD                   Flags) {
+    D3D7VertexBuffer* vb = static_cast<D3D7VertexBuffer*>(VB);
+    UploadIndices(Indices, IndexCount);
+    GetD3D9()->SetFVF(vb->GetFVF());
+    GetD3D9()->SetStreamSource(0, vb->GetD3D9(), 0, vb->GetStride());
+    GetD3D9()->SetIndices(m_IB.ptr());
+    GetD3D9()->DrawIndexedPrimitive(
+      d3d9::D3DPRIMITIVETYPE(PrimitiveType),
+      0,
+      0,
+      NumVertices,
+      StartVertex,
+      IndexCount / GetPrimitiveSize(PrimitiveType));
+    return ProxyInterface->DrawIndexedPrimitiveVB(PrimitiveType, VB, StartVertex, NumVertices, Indices, IndexCount, Flags);
   }
 
   HRESULT D3D7Device::ComputeSphereVisibility(LPD3DVECTOR a, LPD3DVALUE b, DWORD c, DWORD d, LPDWORD e) {

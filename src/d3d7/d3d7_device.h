@@ -92,6 +92,9 @@ namespace dxvk {
 
     Com<d3d9::IDirect3DSurface9> m_initialRT;
     Com<d3d9::IDirect3DSurface9> m_initialDS;
+
+    size_t m_ibSize = 0;
+    Com<d3d9::IDirect3DIndexBuffer9>  m_IB;
   };
 
 }

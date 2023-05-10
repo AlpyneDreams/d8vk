@@ -4,6 +4,7 @@
 #include "../ddraw/dd7_surface.h"
 #include "../ddraw/d3d_util.h"
 #include "d3d7_device.h"
+#include "d3d7_buffer.h"
 
 namespace dxvk {
   static struct LoggerDDraw {
@@ -137,15 +138,34 @@ namespace dxvk {
     );
     if (FAILED(res)) return res;
 
+    m_device = device;
+
     res = ProxyInterface->CreateDevice(IID_IDirect3DHALDevice, lpDDS, lplpD3DDevice, nullptr);
     if (FAILED(res)) return res;
 
-    *lplpD3DDevice = new D3D7Device(((D3D7Device*)*lplpD3DDevice)->GetProxyInterface(), device.ptr(), lpDDS);
+    m_device7 = new D3D7Device(((D3D7Device*)*lplpD3DDevice)->GetProxyInterface(), device.ptr(), lpDDS);
+
+    // TODO: Ref?
+    *lplpD3DDevice = m_device7.ptr();
+
     return D3D_OK;
   }
 
   HRESULT D3D7Interface::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC a, LPDIRECT3DVERTEXBUFFER7 *b, DWORD c) {
-    return ProxyInterface->CreateVertexBuffer(a, b, c, nullptr);
+
+    HRESULT res = ProxyInterface->CreateVertexBuffer(a, b, c, nullptr);
+    if (FAILED(res)) return res;
+
+    if (GetDevice() == nullptr)
+      return D3DERR_INVALIDCALL;
+
+    Com<d3d9::IDirect3DVertexBuffer9> buffer = nullptr;
+    DWORD Stride = GetFVFSize(a->dwFVF);
+    DWORD Size   = Stride * a->dwNumVertices;
+    res = GetDevice()->CreateVertexBuffer(Size, 0, a->dwFVF, d3d9::D3DPOOL_DEFAULT, &buffer, nullptr);
+
+    *b = new D3D7VertexBuffer(((D3D7VertexBuffer*)*b)->GetProxyInterface(), buffer.ptr(), Size, a->dwFVF);
+    return D3D_OK;
   }
 
   HRESULT D3D7Interface::EnumZBufferFormats(REFCLSID a, LPD3DENUMPIXELFORMATSCALLBACK b, LPVOID c) {

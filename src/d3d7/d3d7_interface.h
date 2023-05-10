@@ -6,6 +6,8 @@
 
 namespace dxvk {
 
+  class D3D7Device;
+
   class D3D7Interface : public WrappedObject<d3d9::IDirect3D9, IDirect3D7>, public AddressLookupTableObject {
 
   private:
@@ -24,11 +26,20 @@ namespace dxvk {
       ProxyAddressLookupTable.DeleteAddress(this);
     }
 
+    // Get the relevant D3D9 device. May be null!
+    inline d3d9::IDirect3DDevice9* GetDevice() {
+      return m_device.ptr();
+    }
+
     /*** IDirect3D7 methods ***/
     STDMETHOD(EnumDevices)(THIS_ LPD3DENUMDEVICESCALLBACK7, LPVOID);
     STDMETHOD(CreateDevice)(THIS_ REFCLSID, LPDIRECTDRAWSURFACE7, LPDIRECT3DDEVICE7 *);
     STDMETHOD(CreateVertexBuffer)(THIS_ LPD3DVERTEXBUFFERDESC, LPDIRECT3DVERTEXBUFFER7 *, DWORD);
     STDMETHOD(EnumZBufferFormats)(THIS_ REFCLSID, LPD3DENUMPIXELFORMATSCALLBACK, LPVOID);
     STDMETHOD(EvictManagedTextures)(THIS);
+
+  private:
+    Com<d3d9::IDirect3DDevice9> m_device  = nullptr;
+    Com<D3D7Device, false>      m_device7 = nullptr;
   };
 }

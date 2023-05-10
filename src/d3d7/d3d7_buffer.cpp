@@ -18,32 +18,70 @@
 
 namespace dxvk {
 
-  HRESULT D3D7VertexBuffer::QueryInterface(REFIID riid, LPVOID *ppvObj) {
-    return ProxyInterface->QueryInterface(riid, ppvObj);
-  }
+  HRESULT D3D7VertexBuffer::Lock(DWORD Flags, LPVOID *Data, LPDWORD Size) {
+    if (Size != nullptr)
+      *Size = m_size;
 
-  HRESULT D3D7VertexBuffer::Lock(DWORD a, LPVOID *b, LPDWORD c) {
-    return ProxyInterface->Lock(a, b, c);
+    static_assert(D3DLOCK_READONLY    == DDLOCK_READONLY);
+    static_assert(D3DLOCK_DISCARD     == DDLOCK_DISCARDCONTENTS);
+    static_assert(D3DLOCK_NOOVERWRITE == DDLOCK_NOOVERWRITE);
+    static_assert(D3DLOCK_NOSYSLOCK   == DDLOCK_NOSYSLOCK);
+
+    if (!(Flags & DDLOCK_WAIT))
+      Flags |= D3DLOCK_DONOTWAIT;
+
+    return GetD3D9()->Lock(0, 0, Data, Flags);
   }
 
   HRESULT D3D7VertexBuffer::Unlock() {
-    return ProxyInterface->Unlock();
+    return GetD3D9()->Unlock();
   }
 
-  HRESULT D3D7VertexBuffer::ProcessVertices(DWORD a, DWORD b, DWORD c, LPDIRECT3DVERTEXBUFFER7 d, DWORD e, LPDIRECT3DDEVICE7 f, DWORD g) {
-    return ProxyInterface->ProcessVertices(a, b, c, d, e, f, g);
+  HRESULT D3D7VertexBuffer::ProcessVertices(
+      DWORD VertexOp,
+      DWORD DestIndex,
+      DWORD Count,
+      LPDIRECT3DVERTEXBUFFER7 VB,
+      DWORD SrcIndex,
+      LPDIRECT3DDEVICE7 Device,
+      DWORD Flags) {
+    D3D7Device* device = static_cast<D3D7Device*>(Device);
+    D3D7VertexBuffer* src = static_cast<D3D7VertexBuffer*>(VB);
+    // TODO: VertexOp
+    device->GetD3D9()->SetStreamSource(0, src->GetD3D9(), 0, m_stride);
+    return device->GetD3D9()->ProcessVertices(
+      SrcIndex,
+      DestIndex,
+      Count,
+      GetD3D9(),
+      nullptr,
+      Flags);
   }
 
-  HRESULT D3D7VertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC a) {
-    return ProxyInterface->GetVertexBufferDesc(a);
+  HRESULT D3D7VertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC pDesc) {
+    ProxyInterface->GetVertexBufferDesc(pDesc);
+    pDesc->dwSize         = sizeof(D3DVERTEXBUFFERDESC);
+    pDesc->dwCaps         = 0;        // TODO: VertexBuffer dwCaps
+    pDesc->dwFVF          = m_fvf;
+    pDesc->dwNumVertices  = m_size / m_stride;
+    return D3D_OK;
+  } 
+
+  HRESULT D3D7VertexBuffer::Optimize(LPDIRECT3DDEVICE7 Device, DWORD Flags) {
+    // Sure thing, buddy
+    return D3D_OK;
   }
 
-  HRESULT D3D7VertexBuffer::Optimize(LPDIRECT3DDEVICE7 a, DWORD b) {
-    return ProxyInterface->Optimize(a, b);
-  }
-
-  HRESULT D3D7VertexBuffer::ProcessVerticesStrided(DWORD a, DWORD b, DWORD c, LPD3DDRAWPRIMITIVESTRIDEDDATA d, DWORD e, LPDIRECT3DDEVICE7 f, DWORD g) {
-    return ProxyInterface->ProcessVerticesStrided(a, b, c, d, e, f, g);
+  HRESULT D3D7VertexBuffer::ProcessVerticesStrided(
+      DWORD VertexOp,
+      DWORD DestIndex,
+      DWORD Count,
+      LPD3DDRAWPRIMITIVESTRIDEDDATA Data,
+      DWORD SrcIndex,
+      LPDIRECT3DDEVICE7 Device,
+      DWORD Flags) {
+    // TODO: ProcessVerticesStrided
+    return ProxyInterface->ProcessVerticesStrided(VertexOp, DestIndex, Count, Data, SrcIndex, Device, Flags);
   }
 
 }
