@@ -2,9 +2,9 @@ ddraw_res = wrc_generator.process('version.rc')
 
 ddraw_src = [
   'dd7_surface.cpp',
-  'd3d7/d3d7_interface.cpp',
-  'd3d7/d3d7_device.cpp',
-  'd3d7/d3d7_buffer.cpp',
+  '../d3d7/d3d7_interface.cpp',
+  '../d3d7/d3d7_device.cpp',
+  '../d3d7/d3d7_buffer.cpp',
   'wrapper/dllmain.cpp',
   'wrapper/IDirect3DDeviceX.cpp',
   'wrapper/IDirect3DExecuteBuffer.cpp',

@@ -1,6 +1,6 @@
-#include "../wrapper/ddraw.h"
+#include "../ddraw/wrapper/ddraw.h"
 
-#include "../d3d_util.h"
+#include "../ddraw/d3d_util.h"
 #include "../d3d9/d3d9_bridge.h"
 
 namespace dxvk {

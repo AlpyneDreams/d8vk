@@ -1,8 +1,8 @@
 
-#include "../wrapper/ddraw.h"
+#include "../ddraw/wrapper/ddraw.h"
 
-#include "../dd7_surface.h"
-#include "../d3d_util.h"
+#include "../ddraw/dd7_surface.h"
+#include "../ddraw/d3d_util.h"
 #include "d3d7_device.h"
 
 namespace dxvk {

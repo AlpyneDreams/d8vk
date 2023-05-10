@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../d3d_include.h"
+#include "../ddraw/d3d_include.h"
 
-#include "../d3d_wrapped_object.h"
+#include "../ddraw/d3d_wrapped_object.h"
 
 namespace dxvk {
 
