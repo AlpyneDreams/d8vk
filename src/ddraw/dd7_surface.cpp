@@ -14,7 +14,7 @@
  *   3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "wrapper\ddraw.h"
+#include "wrapper/ddraw.h"
 #include "dd7_util.h"
 
 namespace dxvk {

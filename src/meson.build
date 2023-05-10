@@ -26,7 +26,7 @@ if get_option('enable_d3d10')
   subdir('d3d10')
 endif
 
-if get_option('enable_d3d9') or get_option('enable_d3d8')
+if get_option('enable_d3d9') or get_option('enable_d3d8') or get_option('enable_d3d7')
   subdir('dxso')
   subdir('d3d9')
 endif
@@ -36,9 +36,6 @@ if get_option('enable_d3d8')
 endif
 
 if get_option('enable_d3d7')
-  if not get_option('enable_d3d9')
-    error('D3D9 is required for D3D7.')
-  endif
   subdir('ddraw')
 endif
 

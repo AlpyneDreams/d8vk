@@ -1,4 +1,4 @@
-#include "..\wrapper\ddraw.h"
+#include "../wrapper/ddraw.h"
 
 #include "../d3d_util.h"
 #include "../d3d9/d3d9_bridge.h"

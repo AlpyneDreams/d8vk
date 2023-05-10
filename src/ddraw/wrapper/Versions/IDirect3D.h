@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 class m_IDirect3D : public IDirect3D, public AddressLookupTableObject
 {
 private:
