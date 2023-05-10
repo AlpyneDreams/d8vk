@@ -5,6 +5,125 @@
 
 constexpr UINT MaxIndex = 35;
 
+template <typename T>
+struct AddressCacheIndex { static constexpr UINT CacheIndex = 0; };
+template <>
+struct AddressCacheIndex<IDirect3DExecuteBuffer> { static constexpr UINT CacheIndex = 1; };
+template <>
+struct AddressCacheIndex<IDirect3DLight> { static constexpr UINT CacheIndex = 2; };
+template <>
+struct AddressCacheIndex<IDirectDrawClipper> { static constexpr UINT CacheIndex = 3; };
+template <>
+struct AddressCacheIndex<IDirectDrawColorControl> { static constexpr UINT CacheIndex = 4; };
+template <>
+struct AddressCacheIndex<IDirectDrawGammaControl> { static constexpr UINT CacheIndex = 5; };
+template <>
+struct AddressCacheIndex<IDirectDrawPalette> { static constexpr UINT CacheIndex = 6; };
+template <>
+struct AddressCacheIndex<m_IDirect3D> { static constexpr UINT CacheIndex = 7; };
+template <>
+struct AddressCacheIndex<m_IDirect3D2> { static constexpr UINT CacheIndex = 8; };
+template <>
+struct AddressCacheIndex<m_IDirect3D3> { static constexpr UINT CacheIndex = 9; };
+template <>
+struct AddressCacheIndex<m_IDirect3D7> { static constexpr UINT CacheIndex = 10;
+	using Type1 = m_IDirect3D;
+	using Type2 = m_IDirect3D2;
+	using Type3 = m_IDirect3D3;
+	using Type4 = m_IDirect3D3;
+	using Type7 = m_IDirect3D7;
+};
+template <>
+struct AddressCacheIndex<m_IDirect3DDevice> { static constexpr UINT CacheIndex = 11; };
+template <>
+struct AddressCacheIndex<m_IDirect3DDevice2> { static constexpr UINT CacheIndex = 12; };
+template <>
+struct AddressCacheIndex<m_IDirect3DDevice3> { static constexpr UINT CacheIndex = 13; };
+template <>
+struct AddressCacheIndex<m_IDirect3DDevice7> { static constexpr UINT CacheIndex = 14;
+	using Type1 = m_IDirect3DDevice;
+	using Type2 = m_IDirect3DDevice2;
+	using Type3 = m_IDirect3DDevice3;
+	using Type4 = m_IDirect3DDevice3;
+	using Type7 = m_IDirect3DDevice7;
+};
+template <>
+struct AddressCacheIndex<m_IDirect3DMaterial> { static constexpr UINT CacheIndex = 15; };
+template <>
+struct AddressCacheIndex<m_IDirect3DMaterial2> { static constexpr UINT CacheIndex = 16; };
+template <>
+struct AddressCacheIndex<m_IDirect3DMaterial3> { static constexpr UINT CacheIndex = 17;
+	using Type1 = m_IDirect3DMaterial;
+	using Type2 = m_IDirect3DMaterial2;
+	using Type3 = m_IDirect3DMaterial3;
+	using Type4 = m_IDirect3DMaterial3;
+	using Type7 = m_IDirect3DMaterial3;
+};
+template <>
+struct AddressCacheIndex<m_IDirect3DTexture> { static constexpr UINT CacheIndex = 18; };
+template <>
+struct AddressCacheIndex<m_IDirect3DTexture2> { static constexpr UINT CacheIndex = 19;
+	using Type1 = m_IDirect3DTexture;
+	using Type2 = m_IDirect3DTexture2;
+	using Type3 = m_IDirect3DTexture2;
+	using Type4 = m_IDirect3DTexture2;
+	using Type7 = m_IDirect3DTexture2;
+};
+template <>
+struct AddressCacheIndex<m_IDirect3DVertexBuffer> { static constexpr UINT CacheIndex = 20; };
+template <>
+struct AddressCacheIndex<m_IDirect3DVertexBuffer7> { static constexpr UINT CacheIndex = 21;
+	using Type1 = m_IDirect3DVertexBuffer;
+	using Type2 = m_IDirect3DVertexBuffer;
+	using Type3 = m_IDirect3DVertexBuffer;
+	using Type4 = m_IDirect3DVertexBuffer;
+	using Type7 = m_IDirect3DVertexBuffer7;
+};
+template <>
+struct AddressCacheIndex<m_IDirect3DViewport> { static constexpr UINT CacheIndex = 22; };
+template <>
+struct AddressCacheIndex<m_IDirect3DViewport2> { static constexpr UINT CacheIndex = 23; };
+template <>
+struct AddressCacheIndex<m_IDirect3DViewport3> { static constexpr UINT CacheIndex = 24;
+	using Type1 = m_IDirect3DViewport;
+	using Type2 = m_IDirect3DViewport2;
+	using Type3 = m_IDirect3DViewport3;
+	using Type4 = m_IDirect3DViewport3;
+	using Type7 = m_IDirect3DViewport3;
+};
+template <>
+struct AddressCacheIndex<m_IDirectDraw> { static constexpr UINT CacheIndex = 25; };
+template <>
+struct AddressCacheIndex<m_IDirectDraw2> { static constexpr UINT CacheIndex = 26; };
+template <>
+struct AddressCacheIndex<m_IDirectDraw3> { static constexpr UINT CacheIndex = 27; };
+template <>
+struct AddressCacheIndex<m_IDirectDraw4> { static constexpr UINT CacheIndex = 28; };
+template <>
+struct AddressCacheIndex<m_IDirectDraw7> { static constexpr UINT CacheIndex = 29;
+	using Type1 = m_IDirectDraw;
+	using Type2 = m_IDirectDraw2;
+	using Type3 = m_IDirectDraw3;
+	using Type4 = m_IDirectDraw4;
+	using Type7 = m_IDirectDraw7;
+};
+template <>
+struct AddressCacheIndex<m_IDirectDrawSurface> { static constexpr UINT CacheIndex = 30; };
+template <>
+struct AddressCacheIndex<m_IDirectDrawSurface2> { static constexpr UINT CacheIndex = 31; };
+template <>
+struct AddressCacheIndex<m_IDirectDrawSurface3> { static constexpr UINT CacheIndex = 32; };
+template <>
+struct AddressCacheIndex<m_IDirectDrawSurface4> { static constexpr UINT CacheIndex = 33; };
+template <>
+struct AddressCacheIndex<m_IDirectDrawSurface7> { static constexpr UINT CacheIndex = 34;
+	using Type1 = m_IDirectDrawSurface;
+	using Type2 = m_IDirectDrawSurface2;
+	using Type3 = m_IDirectDrawSurface3;
+	using Type4 = m_IDirectDrawSurface4;
+	using Type7 = m_IDirectDrawSurface7;
+};
+
 template <typename D>
 class AddressLookupTable
 {
@@ -17,139 +136,20 @@ public:
 	}
 
 	template <typename T>
-	struct AddressCacheIndex { static constexpr UINT CacheIndex = 0; };
-	template <>
-	struct AddressCacheIndex<IDirect3DExecuteBuffer> { static constexpr UINT CacheIndex = 1; };
-	template <>
-	struct AddressCacheIndex<IDirect3DLight> { static constexpr UINT CacheIndex = 2; };
-	template <>
-	struct AddressCacheIndex<IDirectDrawClipper> { static constexpr UINT CacheIndex = 3; };
-	template <>
-	struct AddressCacheIndex<IDirectDrawColorControl> { static constexpr UINT CacheIndex = 4; };
-	template <>
-	struct AddressCacheIndex<IDirectDrawGammaControl> { static constexpr UINT CacheIndex = 5; };
-	template <>
-	struct AddressCacheIndex<IDirectDrawPalette> { static constexpr UINT CacheIndex = 6; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3D> { static constexpr UINT CacheIndex = 7; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3D2> { static constexpr UINT CacheIndex = 8; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3D3> { static constexpr UINT CacheIndex = 9; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3D7> { static constexpr UINT CacheIndex = 10;
-		using Type1 = m_IDirect3D;
-		using Type2 = m_IDirect3D2;
-		using Type3 = m_IDirect3D3;
-		using Type4 = m_IDirect3D3;
-		using Type7 = m_IDirect3D7;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirect3DDevice> { static constexpr UINT CacheIndex = 11; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DDevice2> { static constexpr UINT CacheIndex = 12; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DDevice3> { static constexpr UINT CacheIndex = 13; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DDevice7> { static constexpr UINT CacheIndex = 14;
-		using Type1 = m_IDirect3DDevice;
-		using Type2 = m_IDirect3DDevice2;
-		using Type3 = m_IDirect3DDevice3;
-		using Type4 = m_IDirect3DDevice3;
-		using Type7 = m_IDirect3DDevice7;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirect3DMaterial> { static constexpr UINT CacheIndex = 15; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DMaterial2> { static constexpr UINT CacheIndex = 16; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DMaterial3> { static constexpr UINT CacheIndex = 17;
-		using Type1 = m_IDirect3DMaterial;
-		using Type2 = m_IDirect3DMaterial2;
-		using Type3 = m_IDirect3DMaterial3;
-		using Type4 = m_IDirect3DMaterial3;
-		using Type7 = m_IDirect3DMaterial3;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirect3DTexture> { static constexpr UINT CacheIndex = 18; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DTexture2> { static constexpr UINT CacheIndex = 19;
-		using Type1 = m_IDirect3DTexture;
-		using Type2 = m_IDirect3DTexture2;
-		using Type3 = m_IDirect3DTexture2;
-		using Type4 = m_IDirect3DTexture2;
-		using Type7 = m_IDirect3DTexture2;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirect3DVertexBuffer> { static constexpr UINT CacheIndex = 20; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DVertexBuffer7> { static constexpr UINT CacheIndex = 21;
-		using Type1 = m_IDirect3DVertexBuffer;
-		using Type2 = m_IDirect3DVertexBuffer;
-		using Type3 = m_IDirect3DVertexBuffer;
-		using Type4 = m_IDirect3DVertexBuffer;
-		using Type7 = m_IDirect3DVertexBuffer7;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirect3DViewport> { static constexpr UINT CacheIndex = 22; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DViewport2> { static constexpr UINT CacheIndex = 23; };
-	template <>
-	struct AddressCacheIndex<m_IDirect3DViewport3> { static constexpr UINT CacheIndex = 24;
-		using Type1 = m_IDirect3DViewport;
-		using Type2 = m_IDirect3DViewport2;
-		using Type3 = m_IDirect3DViewport3;
-		using Type4 = m_IDirect3DViewport3;
-		using Type7 = m_IDirect3DViewport3;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirectDraw> { static constexpr UINT CacheIndex = 25; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDraw2> { static constexpr UINT CacheIndex = 26; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDraw3> { static constexpr UINT CacheIndex = 27; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDraw4> { static constexpr UINT CacheIndex = 28; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDraw7> { static constexpr UINT CacheIndex = 29;
-		using Type1 = m_IDirectDraw;
-		using Type2 = m_IDirectDraw2;
-		using Type3 = m_IDirectDraw3;
-		using Type4 = m_IDirectDraw4;
-		using Type7 = m_IDirectDraw7;
-	};
-	template <>
-	struct AddressCacheIndex<m_IDirectDrawSurface> { static constexpr UINT CacheIndex = 30; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDrawSurface2> { static constexpr UINT CacheIndex = 31; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDrawSurface3> { static constexpr UINT CacheIndex = 32; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDrawSurface4> { static constexpr UINT CacheIndex = 33; };
-	template <>
-	struct AddressCacheIndex<m_IDirectDrawSurface7> { static constexpr UINT CacheIndex = 34;
-		using Type1 = m_IDirectDrawSurface;
-		using Type2 = m_IDirectDrawSurface2;
-		using Type3 = m_IDirectDrawSurface3;
-		using Type4 = m_IDirectDrawSurface4;
-		using Type7 = m_IDirectDrawSurface7;
-	};
-
-	template <typename T>
 	T *FindAddress(void *Proxy, DWORD Version)
 	{
 		switch (Version)
 		{
 		case 1:
-			return (T*)FindAddress<AddressCacheIndex<T>::Type1>(Proxy);
+			return (T*)FindAddress<typename AddressCacheIndex<T>::Type1>(Proxy);
 		case 2:
-			return (T*)FindAddress<AddressCacheIndex<T>::Type2>(Proxy);
+			return (T*)FindAddress<typename AddressCacheIndex<T>::Type2>(Proxy);
 		case 3:
-			return (T*)FindAddress<AddressCacheIndex<T>::Type3>(Proxy);
+			return (T*)FindAddress<typename AddressCacheIndex<T>::Type3>(Proxy);
 		case 4:
-			return (T*)FindAddress<AddressCacheIndex<T>::Type4>(Proxy);
+			return (T*)FindAddress<typename AddressCacheIndex<T>::Type4>(Proxy);
 		case 7:
-			return (T*)FindAddress<AddressCacheIndex<T>::Type7>(Proxy);
+			return (T*)FindAddress<typename AddressCacheIndex<T>::Type7>(Proxy);
 		default:
 			return nullptr;
 		}

@@ -21,6 +21,7 @@
 std::ofstream Log::LOG("ddraw.log");
 AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
+extern "C" {
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
 CompleteCreateSysmemSurfaceProc m_pCompleteCreateSysmemSurface;
 D3DParseUnknownCommandProc m_pD3DParseUnknownCommand;
@@ -44,7 +45,7 @@ RegisterSpecialCaseProc m_pRegisterSpecialCase;
 ReleaseDDThreadLockProc m_pReleaseDDThreadLock;
 SetAppCompatDataProc m_pSetAppCompatData;
 
-bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
+bool WINAPI DllMain(HANDLE, DWORD dwReason, LPVOID)
 {
 	static HMODULE ddrawdll = nullptr;
 	switch (dwReason)
@@ -335,4 +336,5 @@ HRESULT WINAPI SetAppCompatData(DWORD Type, DWORD Value)
 	}
 
 	return m_pSetAppCompatData(Type, Value);
+}
 }

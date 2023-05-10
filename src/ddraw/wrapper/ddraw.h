@@ -21,12 +21,10 @@ namespace dxvk {
 class m_IDirect3D;
 class m_IDirect3D2;
 class m_IDirect3D3;
-class m_IDirect3D7;
 class m_IDirect3DX;
 class m_IDirect3DDevice;
 class m_IDirect3DDevice2;
 class m_IDirect3DDevice3;
-class m_IDirect3DDevice7;
 class m_IDirect3DDeviceX;
 class m_IDirect3DMaterial;
 class m_IDirect3DMaterial2;
@@ -36,7 +34,6 @@ class m_IDirect3DTexture;
 class m_IDirect3DTexture2;
 class m_IDirect3DTextureX;
 class m_IDirect3DVertexBuffer;
-class m_IDirect3DVertexBuffer7;
 class m_IDirect3DVertexBufferX;
 class m_IDirect3DViewport;
 class m_IDirect3DViewport2;
@@ -52,7 +49,6 @@ class m_IDirectDrawSurface;
 class m_IDirectDrawSurface2;
 class m_IDirectDrawSurface3;
 class m_IDirectDrawSurface4;
-class m_IDirectDrawSurface7;
 class m_IDirectDrawSurfaceX;
 
 #include "AddressLookupTable.h"
