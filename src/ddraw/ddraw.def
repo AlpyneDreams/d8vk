@@ -1,6 +1,7 @@
 LIBRARY ddraw
 EXPORTS
 
+DllMain                   @15
 AcquireDDThreadLock				@1
 CompleteCreateSysmemSurface		@2
 D3DParseUnknownCommand			@3

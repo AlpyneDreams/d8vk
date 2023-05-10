@@ -137,7 +137,7 @@ namespace dxvk {
     Com<d3d9::IDirect3DDevice9> device = nullptr;
 
     HRESULT res = GetD3D9()->CreateDevice(
-      1,//(UINT)rclsid.Data1, // TODO: GPU selection
+      D3DADAPTER_DEFAULT, // TODO: GPU selection
       d3d9::D3DDEVTYPE_HAL,
       hwnd,
       D3DCREATE_HARDWARE_VERTEXPROCESSING,

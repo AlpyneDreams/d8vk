@@ -15,6 +15,7 @@
 */
 
 #include "ddraw.h"
+#include "../../util/log/log.h"
 
 #define D3DERR_COMMAND_UNPARSED              MAKE_DDHRESULT(3000)
 
@@ -44,7 +45,7 @@ RegisterSpecialCaseProc m_pRegisterSpecialCase;
 ReleaseDDThreadLockProc m_pReleaseDDThreadLock;
 SetAppCompatDataProc m_pSetAppCompatData;
 
-bool WINAPI DllMain(HANDLE, DWORD dwReason, LPVOID)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 {
 	static HMODULE ddrawdll = nullptr;
 	switch (dwReason)
@@ -54,6 +55,7 @@ bool WINAPI DllMain(HANDLE, DWORD dwReason, LPVOID)
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\ddraw.dll");
+		dxvk::Logger::info(dxvk::str::format("Loading ddraw.dll from ", path));
 		ddrawdll = LoadLibraryA(path);
 
 		// Get function addresses
