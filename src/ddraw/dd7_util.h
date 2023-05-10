@@ -80,7 +80,7 @@ namespace dxvk {
 
     if (desc.dwFlags & DDSCAPS_COMPLEX) {
       pSurface->EnumAttachedSurfaces(&indent,
-        [](LPDIRECTDRAWSURFACE7 surf, LPDDSURFACEDESC2 pDesc, LPVOID pContext) -> HRESULT {
+        [](LPDIRECTDRAWSURFACE7 surf, LPDDSURFACEDESC2 pDesc, LPVOID pContext) WINAPI -> HRESULT {
           PrintSurfaceStructure(surf, *(int*)pContext + 1, pDesc);
           return DDENUMRET_OK;
         }

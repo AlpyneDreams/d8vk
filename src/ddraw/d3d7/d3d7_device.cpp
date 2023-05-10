@@ -294,7 +294,7 @@ namespace dxvk {
 
         // Attach sides 1-5 to each attached surface.
         surf->EnumAttachedSurfaces(tex.ptr(),
-          [](IDirectDrawSurface7* subsurf, DDSURFACEDESC2* desc, void* ctx) -> HRESULT {
+          [](IDirectDrawSurface7* subsurf, DDSURFACEDESC2* desc, void* ctx) WINAPI -> HRESULT {
             d3d9::IDirect3DCubeTexture9* cube = (d3d9::IDirect3DCubeTexture9*)ctx;
 
             // Skip zbuffer.
