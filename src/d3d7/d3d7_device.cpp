@@ -73,6 +73,8 @@ namespace dxvk {
     return ProxyInterface->GetRenderTarget(rt);
   }
 
+#pragma region Identical Shims
+
   HRESULT D3D7Device::Clear(DWORD a, LPD3DRECT b, DWORD c, D3DCOLOR d, D3DVALUE e, DWORD f) {
     GetD3D9()->Clear(a, b, c, d, e, f);
 	  return ProxyInterface->Clear(a, b, c, d, e, f);
@@ -143,8 +145,36 @@ namespace dxvk {
 	  return ProxyInterface->EndStateBlock(a);
   }
 
-  HRESULT D3D7Device::PreLoad(LPDIRECTDRAWSURFACE7 a) {
-    return ProxyInterface->PreLoad(a);
+  HRESULT D3D7Device::LightEnable(DWORD n, BOOL enabled) {
+    GetD3D9()->LightEnable(n, enabled);
+    return ProxyInterface->LightEnable(n, enabled);
+  }
+
+  HRESULT D3D7Device::GetLightEnable(DWORD n, BOOL *enabled) {
+    GetD3D9()->GetLightEnable(n, enabled);
+    return ProxyInterface->GetLightEnable(n, enabled);
+  }
+
+  HRESULT D3D7Device::SetClipPlane(DWORD a, D3DVALUE *b) {
+    GetD3D9()->SetClipPlane(a, b);
+    return ProxyInterface->SetClipPlane(a, b);
+  }
+
+  HRESULT D3D7Device::GetClipPlane(DWORD a, D3DVALUE *b) {
+    GetD3D9()->GetClipPlane(a, b);
+    return ProxyInterface->GetClipPlane(a, b);
+  }
+
+  HRESULT D3D7Device::GetInfo(DWORD a, LPVOID b, DWORD c) {
+    return ProxyInterface->GetInfo(a, b, c);
+  }
+
+#pragma endregion
+
+  HRESULT D3D7Device::PreLoad(LPDIRECTDRAWSURFACE7 Surface) {
+    DD7Surface* surf = static_cast<DD7Surface*>(Surface);
+    surf->GetSurface()->PreLoad();
+    return ProxyInterface->PreLoad(Surface);
   }
 
   HRESULT D3D7Device::DrawPrimitive(
@@ -422,6 +452,7 @@ namespace dxvk {
   }
 
   HRESULT D3D7Device::ValidateDevice(LPDWORD a) {
+    GetD3D9()->ValidateDevice(a);
     return ProxyInterface->ValidateDevice(a);
   }
 
@@ -444,29 +475,4 @@ namespace dxvk {
   HRESULT D3D7Device::Load(LPDIRECTDRAWSURFACE7 a, LPPOINT b, LPDIRECTDRAWSURFACE7 c, LPRECT d, DWORD e) {
     return ProxyInterface->Load(a, b, c, d, e);
   }
-
-  HRESULT D3D7Device::LightEnable(DWORD n, BOOL enabled) {
-    GetD3D9()->LightEnable(n, enabled);
-    return ProxyInterface->LightEnable(n, enabled);
-  }
-
-  HRESULT D3D7Device::GetLightEnable(DWORD n, BOOL *enabled) {
-    GetD3D9()->GetLightEnable(n, enabled);
-    return ProxyInterface->GetLightEnable(n, enabled);
-  }
-
-  HRESULT D3D7Device::SetClipPlane(DWORD a, D3DVALUE *b) {
-    GetD3D9()->SetClipPlane(a, b);
-    return ProxyInterface->SetClipPlane(a, b);
-  }
-
-  HRESULT D3D7Device::GetClipPlane(DWORD a, D3DVALUE *b) {
-    GetD3D9()->GetClipPlane(a, b);
-    return ProxyInterface->GetClipPlane(a, b);
-  }
-
-  HRESULT D3D7Device::GetInfo(DWORD a, LPVOID b, DWORD c) {
-    return ProxyInterface->GetInfo(a, b, c);
-  }
-
 }
