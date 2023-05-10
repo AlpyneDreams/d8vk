@@ -104,7 +104,7 @@ DWORD WINAPI CompleteCreateSysmemSurface(DWORD arg)
 {
 	if (!m_pCompleteCreateSysmemSurface)
 	{
-		return NULL;
+		return 0;
 	}
 
 	return m_pCompleteCreateSysmemSurface(arg);
@@ -292,7 +292,7 @@ DWORD WINAPI GetOLEThunkData(DWORD index)
 {
 	if (!m_pGetOLEThunkData)
 	{
-		return NULL;
+		return 0;
 	}
 
 	return m_pGetOLEThunkData(index);

@@ -124,6 +124,18 @@ struct AddressCacheIndex<m_IDirectDrawSurface7> { static constexpr UINT CacheInd
 	using Type7 = m_IDirectDrawSurface7;
 };
 
+class AddressLookupTableObject
+{
+public:
+	virtual ~AddressLookupTableObject() { }
+
+	void DeleteMe()
+	{
+		delete this;
+	}
+};
+
+
 template <typename D>
 class AddressLookupTable
 {
@@ -223,8 +235,10 @@ public:
 			it = g_map[CacheIndex].erase(it);
 		}
 
+#ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4127)
+#endif
 		if ((CacheIndex == AddressCacheIndex<m_IDirectDraw>::CacheIndex ||
 			CacheIndex == AddressCacheIndex<m_IDirectDraw2>::CacheIndex ||
 			CacheIndex == AddressCacheIndex<m_IDirectDraw3>::CacheIndex ||
@@ -238,7 +252,9 @@ public:
 		{
 			DeleteAll();
 		}
+#ifdef _MSC_VER
 #pragma warning (pop)
+#endif
 	}
 
 	void DeleteAll()
@@ -256,15 +272,4 @@ private:
 	bool ConstructorFlag = false;
 	D *unused = nullptr;
 	std::unordered_map<void*, class AddressLookupTableObject*> g_map[MaxIndex];
-};
-
-class AddressLookupTableObject
-{
-public:
-	virtual ~AddressLookupTableObject() { }
-
-	void DeleteMe()
-	{
-		delete this;
-	}
 };

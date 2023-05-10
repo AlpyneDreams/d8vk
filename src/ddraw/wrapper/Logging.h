@@ -54,7 +54,9 @@ static void logf(wchar_t * fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
+#ifdef _MSC_VER
 #pragma warning(suppress: 4996)
+#endif
 	auto size = _vsnwprintf(nullptr, 0, fmt, ap);
 	std::wstring output(size + 1, '\0');
 	vswprintf_s(&output[0], size + 1, fmt, ap);

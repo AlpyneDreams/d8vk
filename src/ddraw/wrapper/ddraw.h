@@ -84,6 +84,9 @@ HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppv
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj);
 extern AddressLookupTable<void> ProxyAddressLookupTable;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreorder"
+
 // Direct3D Version Wrappers
 #include "Versions/IDirect3D.h"
 #include "Versions/IDirect3D2.h"
@@ -131,6 +134,8 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "IDirectDrawGammaControl.h"
 #include "IDirectDrawPalette.h"
 #include "IDirectDrawSurfaceX.h"
+
+#pragma GCC diagnostic pop
 
 // DXVK Implementations
 
