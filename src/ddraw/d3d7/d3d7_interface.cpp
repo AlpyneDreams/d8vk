@@ -6,7 +6,12 @@
 #include "d3d7_device.h"
 
 namespace dxvk {
-  Logger Logger::s_instance("ddraw.log");
+  static struct LoggerDDraw {
+    LoggerDDraw() {
+      Logger::setLogFile("ddraw.log");
+    }
+  } s_instance;
+
 
   ULONG D3D7Interface::AddRef() {
     return ProxyInterface->AddRef();
