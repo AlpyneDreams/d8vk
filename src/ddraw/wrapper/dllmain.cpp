@@ -18,7 +18,6 @@
 
 #define D3DERR_COMMAND_UNPARSED              MAKE_DDHRESULT(3000)
 
-std::ofstream Log::LOG("ddraw.log");
 AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
 extern "C" {
@@ -55,7 +54,6 @@ bool WINAPI DllMain(HANDLE, DWORD dwReason, LPVOID)
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\ddraw.dll");
-		Log() << "Loading " << path;
 		ddrawdll = LoadLibraryA(path);
 
 		// Get function addresses

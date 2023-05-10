@@ -52,7 +52,6 @@ class m_IDirectDrawSurface4;
 class m_IDirectDrawSurfaceX;
 
 #include "AddressLookupTable.h"
-#include "Logging.h"
 
 #define DDWRAPPER_TYPEX 0x80
 
