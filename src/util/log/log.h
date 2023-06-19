@@ -30,8 +30,6 @@ namespace dxvk {
     
     Logger(const std::string& file_name);
     ~Logger();
-
-    static void setLogFile(const std::string& file_name);
     
     static void trace(const std::string& message);
     static void debug(const std::string& message);
@@ -52,8 +50,6 @@ namespace dxvk {
     
     dxvk::mutex   m_mutex;
     std::ofstream m_fileStream;
-
-    std::string   m_fileName;
     
     void emitMsg(LogLevel level, const std::string& message);
     
