@@ -7,12 +7,18 @@
 
 namespace dxvk {
 
-  ULONG D3D9Bridge::AddRef() {
+  ULONG STDMETHODCALLTYPE D3D9Bridge::AddRef() {
     return m_device->AddRef();
   }
 
-  ULONG D3D9Bridge::Release() {
+  ULONG STDMETHODCALLTYPE D3D9Bridge::Release() {
     return m_device->Release();
+  }
+
+  HRESULT STDMETHODCALLTYPE D3D9Bridge::QueryInterface(
+          REFIID  riid,
+          void** ppvObject) {
+    return m_device->QueryInterface(riid, ppvObject);
   }
 
   void D3D9Bridge::SetAPIName(const char* name) {
@@ -84,12 +90,18 @@ namespace dxvk {
   }
 
 
-  ULONG D3D9InterfaceBridge::AddRef() {
+  ULONG STDMETHODCALLTYPE D3D9InterfaceBridge::AddRef() {
     return m_interface->AddRef();
   }
 
-  ULONG D3D9InterfaceBridge::Release() {
+  ULONG STDMETHODCALLTYPE D3D9InterfaceBridge::Release() {
     return m_interface->Release();
+  }
+
+  HRESULT STDMETHODCALLTYPE D3D9InterfaceBridge::QueryInterface(
+          REFIID  riid,
+          void** ppvObject) {
+    return m_interface->QueryInterface(riid, ppvObject);
   }
 
   const Config& D3D9InterfaceBridge::GetConfig() const {

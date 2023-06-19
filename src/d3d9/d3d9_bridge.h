@@ -26,7 +26,7 @@ namespace dxvk {
   class DECLSPEC_UUID("D3D9ACAB-A407-773E-18E9-CAFEBEEF2000") D3D9InterfaceBridge;
 #endif
 
-  class D3D9Bridge {
+  class D3D9Bridge :  {
 
   // D3D8 keeps D3D9 objects contained in a namespace.
   #ifdef DXVK_D3D9_NAMESPACE
@@ -39,8 +39,11 @@ namespace dxvk {
     D3D9Bridge(D3D9DeviceEx* pDevice) : m_device(pDevice) {}
     virtual ~D3D9Bridge() = default;
 
-    ULONG AddRef();
-    ULONG Release();
+    virtual ULONG STDMETHODCALLTYPE AddRef();
+    virtual ULONG STDMETHODCALLTYPE Release();
+    virtual HRESULT STDMETHODCALLTYPE QueryInterface(
+            REFIID  riid,
+            void** ppvObject);
 
     virtual void SetAPIName(const char* name);
 
@@ -77,7 +80,7 @@ namespace dxvk {
     std::bitset<UINT8_MAX>  m_supportedRenderStates;
   };
 
-  class D3D9InterfaceBridge {
+  class D3D9InterfaceBridge : public IUnknown {
 
   public:
     using Type = D3D9InterfaceEx;
@@ -85,8 +88,11 @@ namespace dxvk {
     D3D9InterfaceBridge(D3D9InterfaceEx* pObject) : m_interface(pObject) {}
     virtual ~D3D9InterfaceBridge() = default;
 
-    ULONG AddRef();
-    ULONG Release();
+    virtual ULONG STDMETHODCALLTYPE AddRef();
+    virtual ULONG STDMETHODCALLTYPE Release();
+    virtual HRESULT STDMETHODCALLTYPE QueryInterface(
+            REFIID  riid,
+            void** ppvObject);
 
     virtual const Config& GetConfig() const;
     
