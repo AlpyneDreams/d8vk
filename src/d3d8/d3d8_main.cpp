@@ -1,12 +1,7 @@
 #include "d3d8_interface.h"
 
 namespace dxvk {
-
-  static struct LoggerD3D8 {
-    LoggerD3D8() {
-      Logger::setLogFile("d3d8.log");
-    }
-  } s_instance;
+  Logger Logger::s_instance("d3d8.log");
 
   HRESULT CreateD3D8(IDirect3D8** ppDirect3D8) {
     if (!ppDirect3D8)

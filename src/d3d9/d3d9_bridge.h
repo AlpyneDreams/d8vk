@@ -100,8 +100,9 @@ namespace dxvk {
   Com<B> GetD3D9Bridge(T* object) {
     Com<B> pointer = nullptr;
     if (FAILED(object->QueryInterface(__uuidof(B), (void**)&pointer))) {
-      Logger::err("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge.");
-      throw DxvkError("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge.");
+      Logger::err("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge. d3d9.dll might be DXVK, but not a version built for D8VK!");
+      Logger::err("Please install the d3d9.dll that came with d3d8.dll");
+      throw DxvkError("GetD3D9Bridge: ERROR! Failed to get D3D9 Bridge. d3d9.dll might be DXVK, but not a version built for D8VK!");
     }
     return pointer;
   }
