@@ -439,10 +439,6 @@ namespace dxvk {
     { R"(\\Neptunia\.exe$)", {{
       { "d3d9.forceAspectRatio",            "16:9" },
     }} },
-    /* D&D - The Temple Of Elemental Evil          */
-    { R"(\\ToEE(a)?\.exe$)", {{
-      { "d3d9.allowDiscard",                "False" },
-    }} },
     /* ZUSI 3 - Aerosoft Edition                  */
     { R"(\\ZusiSim\.exe$)", {{
       { "d3d9.noExplicitFrontBuffer",       "True" },
@@ -587,10 +583,6 @@ namespace dxvk {
      * declares a 3d texture.                   */
     { R"(\\SWTFU2\.exe$)", {{
       { "d3d9.forceSamplerTypeSpecConstants",  "True" },
-    }} },
-    /* Scrapland (Remastered)                   */
-    { R"(\\Scrap\.exe$)", {{
-      { "d3d9.deferSurfaceCreation",        "True" },
     }} },
     /* Majesty 2 (Collection)                   *
      * Crashes on UMA without a memory limit,   *
@@ -808,6 +800,14 @@ namespace dxvk {
      * Declares v5 as color but shader uses v6   */
     { R"(\\TP_Win32\.exe$)", {{
       { "d3d8.forceVsDecl",      "0:2,3:2,6:4,7:1" },
+    }} },
+    /* D&D - The Temple Of Elemental Evil          */
+    { R"(\\ToEE(a)?\.exe$)", {{
+      { "d3d9.allowDiscard",                "False" },
+    }} },
+    /* Scrapland (Remastered)                   */
+    { R"(\\Scrap\.exe$)", {{
+      { "d3d9.deferSurfaceCreation",        "True" },
     }} },
   }};
 
