@@ -14,14 +14,14 @@ D8VK Documentation:
 
 A Vulkan-based translation layer for Direct3D 8/9/10/11 which allows running 3D applications on Linux using Wine.
 
-For the current status of the project, please refer to the [project wiki](https://github.com/doitsujin/dxvk/wiki).
+For the current status of the project, please refer to the [project wiki](https://github.com/AlpyneDreams/d8vk/wiki).
 
-The most recent development builds can be found [here](https://github.com/doitsujin/dxvk/actions/workflows/artifacts.yml?query=branch%3Amaster).
+The most recent development builds can be found [here](https://github.com/AlpyneDreams/d8vk/actions/workflows/artifacts.yml?query=branch%3Amaster).
 
-Release builds can be found [here](https://github.com/doitsujin/dxvk/releases).
+Release builds can be found [here](https://github.com/AlpyneDreams/d8vk/releases).
 
 ## How to use
-In order to install a DXVK package obtained from the [release](https://github.com/doitsujin/dxvk/releases) page into a given wine prefix, copy or symlink the DLLs into the following directories as follows, then open `winecfg` and manually add DLL overrides for `d3d11`, `d3d10core`, `dxgi`, and `d3d9`:
+In order to install a DXVK package obtained from the [release](https://github.com/AlpyneDreams/d8vk/releases) page into a given wine prefix, copy or symlink the DLLs into the following directories as follows, then open `winecfg` and manually add DLL overrides for `d3d11`, `d3d10core`, `dxgi`, and `d3d9`:
 ```
 WINEPREFIX=/path/to/wineprefix
 cp x64/*.dll $WINEPREFIX/drive_c/windows/system32
@@ -37,7 +37,7 @@ In order to remove DXVK from a prefix, remove the DLLs and DLL overrides, and ru
 
 In order to pull in all submodules that are needed for building, clone the repository using the following command:
 ```
-git clone --recursive https://github.com/doitsujin/dxvk.git
+git clone --recursive https://github.com/AlpyneDreams/d8vk.git
 ```
 
 
@@ -77,7 +77,7 @@ ninja install
 The D3D9, D3D10, D3D11 and DXGI DLLs will be located in `/your/dxvk/directory/bin`. Setup has to be done manually in this case.
 
 ### Notes on Vulkan drivers
-Before reporting an issue, please check the [Wiki](https://github.com/doitsujin/dxvk/wiki/Driver-support) page on the current driver status and make sure you run a recent enough driver version for your hardware.
+Before reporting an issue, please check the [Wiki](https://github.com/AlpyneDreams/d8vk/wiki/Driver-support) page on the current driver status and make sure you run a recent enough driver version for your hardware.
 
 ### Online multi-player games
 Manipulation of Direct3D libraries in multi-player games may be considered cheating and can get your account **banned**. This may also apply to single-player games with an embedded or dedicated multiplayer portion. **Use at your own risk.**
