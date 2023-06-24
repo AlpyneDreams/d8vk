@@ -26,7 +26,7 @@ namespace dxvk {
   class DECLSPEC_UUID("D3D9ACAB-A407-773E-18E9-CAFEBEEF2000") D3D9InterfaceBridge;
 #endif
 
-  class D3D9Bridge :  {
+  class D3D9Bridge : public IUnknown {
 
   // D3D8 keeps D3D9 objects contained in a namespace.
   #ifdef DXVK_D3D9_NAMESPACE
