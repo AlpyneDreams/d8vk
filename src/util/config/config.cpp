@@ -921,6 +921,12 @@ namespace dxvk {
     { R"(\\(nations|patriots)\.exe$)", {{
       { "d3d8.managedBufferPlacement",     "False" },
     }} },
+    /* Soldiers: Heroes Of World War II           *
+     * Fills up all available memory and hangs    *
+     * while loading the main menu otherwise      */
+    { R"(\\Soldiers\.exe$)", {{
+      { "d3d9.memoryTrackTest",             "True" },
+    }} },
   }};
 
 
