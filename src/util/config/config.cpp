@@ -921,6 +921,10 @@ namespace dxvk {
     { R"(\\(nations|patriots)\.exe$)", {{
       { "d3d8.managedBufferPlacement",     "False" },
     }} },
+    /* Enclave                                    */
+    { R"(\\Enclave\.exe$)", {{
+      { "d3d8.managedBufferPlacement",     "False" },
+    }} },
   }};
 
 
