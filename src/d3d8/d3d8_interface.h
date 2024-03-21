@@ -131,7 +131,7 @@ namespace dxvk {
         D3DCAPS8* pCaps) {
       d3d9::D3DCAPS9 caps9;
       HRESULT res = m_d3d9->GetDeviceCaps(Adapter, (d3d9::D3DDEVTYPE)DeviceType, &caps9);
-      dxvk::ConvertCaps8(caps9, pCaps);
+      dxvk::ConvertCaps8(caps9, pCaps, m_d3d8Options);
       return res;
     }
 

@@ -28,12 +28,21 @@ namespace dxvk {
     /// May hurt performance outside of specifc games that benefit from it.
     bool batching = false;
 
+    /// Most D3D8 games provide a fallback rendering path that only uses fixed function
+    /// shaders, for compatibility with hardware that does not support programmable shaders,
+    /// namely D3D7 generation cards such as the GeForce 2, the GeForce 4 MX series etc.
+    ///
+    /// Disabling this option will hide VS/PS support in reported caps and is only useful
+    /// for fixed function debugging or, arguably, for nostalgia reasons
+    bool programmableShaderCaps = true;
+
     D3D8Options() {}
     D3D8Options(const Config& config) {
       int32_t minManagedSize  = config.getOption<int32_t>    ("d3d8.managedBufferPlacement", managedBufferPlacement);
       managedBufferPlacement  = config.getOption<bool>       ("d3d8.managedBufferPlacement", true) ? minManagedSize : UINT32_MAX;
-      auto forceVsDeclStr     = config.getOption<std::string>("d3d8.forceVsDecl",  "");
+      auto forceVsDeclStr     = config.getOption<std::string>("d3d8.forceVsDecl",            "");
       batching                = config.getOption<bool>       ("d3d8.batching",               batching);
+      programmableShaderCaps  = config.getOption<bool>       ("d3d8.programmableShaderCaps", programmableShaderCaps);
 
       parseVsDecl(forceVsDeclStr);
     }

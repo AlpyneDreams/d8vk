@@ -36,14 +36,14 @@ namespace dxvk {
   }
 
   // (8<-9) D3DCAPSX: Writes to D3DCAPS8 from D3DCAPS9
-  inline void ConvertCaps8(const d3d9::D3DCAPS9& caps9, D3DCAPS8* pCaps8) {
+  inline void ConvertCaps8(const d3d9::D3DCAPS9& caps9, D3DCAPS8* pCaps8, const D3D8Options& options) {
 
     // should be aligned
     std::memcpy(pCaps8, &caps9, sizeof(D3DCAPS8));
 
     // Max supported shader model is PS 1.4 and VS 1.1
-    pCaps8->VertexShaderVersion = D3DVS_VERSION(1, 1);
-    pCaps8->PixelShaderVersion  = D3DPS_VERSION(1, 4);
+    pCaps8->VertexShaderVersion = options.programmableShaderCaps ? D3DVS_VERSION(1, 1) : D3DVS_VERSION(0, 0);
+    pCaps8->PixelShaderVersion  = options.programmableShaderCaps ? D3DPS_VERSION(1, 4) : D3DPS_VERSION(0, 0);
 
     // This was removed by D3D9. We can probably render windowed.
     pCaps8->Caps2       |= D3DCAPS2_CANRENDERWINDOWED;
