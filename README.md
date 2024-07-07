@@ -1,3 +1,11 @@
+# d8vk has been merged into [dxvk](https://github.com/doitsujin/dxvk)
+Development will continue there. If you had an issue, it will be addressed, but you can also [re-submit it](https://github.com/doitsujin/dxvk/issues/new/choose) to the new repo if you want.
+
+---
+
+<details>
+<summary>Old Readme</summary>
+
 # DXVK
 
 A Vulkan-based translation layer for Direct3D 8/9/10/11 which allows running 3D applications on Linux using Wine.
@@ -182,3 +190,4 @@ All it takes to do that is to add another WSI backend.
 DXVK Native comes with a slim set of Windows header definitions required for D3D9/11 and the MinGW headers for D3D9/11.
 In most cases, it will end up being plug and play with your renderer, but there may be certain teething issues such as:
 - `__uuidof(type)` is supported, but `__uuidof(variable)` is not supported. Use `__uuidof_var(variable)` instead.
+</details>
