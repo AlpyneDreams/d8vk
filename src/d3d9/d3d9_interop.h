@@ -38,6 +38,13 @@ namespace dxvk {
             UINT*                 pExtensionCount,
       const char**                ppExtensions);
 
+    HRESULT STDMETHODCALLTYPE GetDeviceCreateInfo(
+            UINT                      Adapter,
+            D3D9VkDeviceCreateInfo**  ppCreateInfo);
+
+    void STDMETHODCALLTYPE FreeDeviceCreateInfo(
+            D3D9VkDeviceCreateInfo*   pCreateInfo);
+
     HRESULT STDMETHODCALLTYPE ImportDevice(
             UINT                        Adapter,
             D3DDEVTYPE                  DeviceType,
