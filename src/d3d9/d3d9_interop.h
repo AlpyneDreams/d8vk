@@ -34,6 +34,10 @@ namespace dxvk {
             UINT                  Adapter,
             VkPhysicalDevice*     pPhysicalDevice);
 
+    HRESULT STDMETHODCALLTYPE GetInstanceExtensions(
+            UINT*                 pExtensionCount,
+      const char**                ppExtensions);
+
   private:
 
     D3D9InterfaceEx* m_interface;

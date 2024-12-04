@@ -343,6 +343,14 @@ namespace dxvk {
     DxvkExt extSurfaceMaintenance1          = { VK_EXT_SURFACE_MAINTENANCE_1_EXTENSION_NAME,            DxvkExtMode::Optional };
     DxvkExt khrGetSurfaceCapabilities2      = { VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME,       DxvkExtMode::Optional };
     DxvkExt khrSurface                      = { VK_KHR_SURFACE_EXTENSION_NAME,                          DxvkExtMode::Required };
+
+    /**
+     * \brief Get list of supported extensions
+     * \returns List of supported extensions
+     */
+    std::initializer_list<const DxvkExt*> getExtensionList() const {
+      return { &extDebugUtils, &extSurfaceMaintenance1, &khrGetSurfaceCapabilities2, &khrSurface };
+    }
   };
   
 }

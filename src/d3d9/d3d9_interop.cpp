@@ -51,6 +51,41 @@ namespace dxvk {
     }
   }
 
+  HRESULT STDMETHODCALLTYPE D3D9VkInteropInterface::GetInstanceExtensions(
+          UINT* pExtensionCount,
+    const char** ppExtensions) {
+    if (pExtensionCount == nullptr)
+      return D3DERR_INVALIDCALL;
+
+    auto extensions = m_interface->GetInstance()->extensions().getExtensionList();
+    if (ppExtensions == nullptr) {
+      // Count extensions
+      UINT count = 0;
+      for (const DxvkExt* ext : extensions) {
+        if (ext && *ext)
+          count++;
+      }
+
+      *pExtensionCount = count;
+      return D3D_OK;
+    } else {
+      // Write extensions
+      UINT count = 0;
+      UINT maxCount = *pExtensionCount;
+      for (const DxvkExt* ext : extensions) {
+        if (ext && *ext) {
+          if (count < maxCount)
+            ppExtensions[count++] = ext->name();
+          else
+            break;
+        }
+      }
+
+      *pExtensionCount = count;
+      return (count < maxCount) ? D3DERR_MOREDATA : D3D_OK;
+    }
+  }
+
   ////////////////////////////////
   // Texture Interop
   ///////////////////////////////

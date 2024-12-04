@@ -28,6 +28,17 @@ ID3D9VkInteropInterface : public IUnknown {
   virtual void STDMETHODCALLTYPE GetPhysicalDeviceHandle(
           UINT                  Adapter,
           VkPhysicalDevice*     pPhysicalDevice) = 0;
+
+  /**
+   * \brief Gets a list of enabled instance extensions
+   * 
+   * \param [out] pExtensionCount Number of extensions
+   * \param [out] ppExtensions List of extension names
+   * \returns D3DERR_MOREDATA if the list was truncated
+   */
+  virtual HRESULT STDMETHODCALLTYPE GetInstanceExtensions(
+          UINT*                       pExtensionCount,
+    const char**                      ppExtensions) = 0;
 };
 
 /**
