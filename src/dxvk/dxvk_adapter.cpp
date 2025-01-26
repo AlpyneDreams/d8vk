@@ -453,8 +453,8 @@ namespace dxvk {
     this->logFeatures(enabledFeatures);
 
     // Report the desired overallocation behaviour to the driver
-    VkDeviceMemoryOverallocationCreateInfoAMD overallocInfo = { VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD };
-    overallocInfo.overallocationBehavior = VK_MEMORY_OVERALLOCATION_BEHAVIOR_ALLOWED_AMD;
+    enabledFeatures.amdOverallocation = { VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD };
+    enabledFeatures.amdOverallocation.overallocationBehavior = VK_MEMORY_OVERALLOCATION_BEHAVIOR_ALLOWED_AMD;
 
     // Create the requested queues
     float queuePriority = 1.0f;
@@ -487,7 +487,7 @@ namespace dxvk {
     info.pEnabledFeatures           = &enabledFeatures.core.features;
 
     if (devExtensions.amdMemoryOverallocationBehaviour)
-      overallocInfo.pNext = std::exchange(info.pNext, &overallocInfo);
+      enabledFeatures.amdOverallocation.pNext = std::exchange(info.pNext, &enabledFeatures.amdOverallocation);
     
     VkDevice device = VK_NULL_HANDLE;
     VkResult vr = m_vki->vkCreateDevice(m_handle, &info, nullptr, &device);
