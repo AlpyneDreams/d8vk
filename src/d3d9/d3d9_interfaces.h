@@ -178,8 +178,8 @@ ID3D9VkInteropTexture : public IUnknown {
    * Retrieves both the image handle as well as the image's
    * properties. Any of the given pointers may be \c nullptr.
    * 
-   * The VkImage returned by this function is only guaranteed
-   * to be safe for images created by ID3D9VkInteropDeviceCreateImage
+   * A VkImage returned by this function is only guaranteed to be safe
+   * to use for images created by ID3D9VkInteropDevice::CreateImage
    * with the D3D9_VK_IMAGE_STABLE_ADDRESS flag.
    * 
    * If \c pInfo is not \c nullptr, the following rules apply:
@@ -204,7 +204,12 @@ ID3D9VkInteropTexture : public IUnknown {
    * \param [out] pHandle The image handle
    * \param [out] pLayout Image layout
    * \param [out] pInfo Image properties
-   * \returns \c S_OK on success, or \c D3DERR_INVALIDCALL
+   * \returns \c S_OK on success
+   * \returns \c D3DERR_INVALIDCALL on failure
+   * \returns \c D3DERR_NOTFOUND if this texture does not
+   *          have a device handle, such as when the image
+   *          has \c NULL format or the image's pool is
+   *          \c D3DPOOL_SYSMEM or \c D3DPOOL_SCRATCH.
    */
   virtual HRESULT STDMETHODCALLTYPE GetVulkanImageInfo(
           VkImage*              pHandle,
