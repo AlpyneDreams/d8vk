@@ -31,6 +31,8 @@
 #pragma fenv_access (on)
 #endif
 
+#define D3D9_EXTENDED
+
 namespace dxvk {
 
   D3D9DeviceEx::D3D9DeviceEx(
@@ -1335,8 +1337,10 @@ namespace dxvk {
       if (unlikely(pSourceSurface == pDestSurface))
         return D3DERR_INVALIDCALL;
 
+#if !defined( D3D9_EXTENDED )
       if (unlikely(dstIsDS))
         return D3DERR_INVALIDCALL;
+#endif
 
       // The docs say that stretching is only allowed if the destination is either a render target surface or a render target texture.
       // However in practice, using an offscreen plain surface in D3DPOOL_DEFAULT as the destination works fine.
