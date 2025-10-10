@@ -1204,8 +1204,10 @@ namespace dxvk {
     if (unlikely(src == nullptr || dst == nullptr))
       return D3DERR_INVALIDCALL;
 
+#if !defined( D3D9_EXTENDED )
     if (unlikely(src == dst))
       return D3DERR_INVALIDCALL;
+#endif
 
     bool fastPath = true;
 
