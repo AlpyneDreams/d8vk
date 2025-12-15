@@ -1326,10 +1326,10 @@ namespace dxvk {
 #if !defined( D3D9_EXTENDED )
       if (unlikely(srcCopyExtent.width != srcExtent.width || srcCopyExtent.height != srcExtent.height))
         return D3DERR_INVALIDCALL;
-#endif
 
       if (unlikely(m_flags.test(D3D9DeviceFlag::InScene)))
         return D3DERR_INVALIDCALL;
+#endif
     }
 
     // Copies would only work if the extents match. (ie. no stretching)
