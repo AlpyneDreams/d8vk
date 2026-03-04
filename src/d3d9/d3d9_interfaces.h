@@ -215,6 +215,25 @@ ID3D9VkInteropTexture : public IUnknown {
           VkImage*              pHandle,
           VkImageLayout*        pLayout,
           VkImageCreateInfo*    pInfo) = 0;
+  
+  /**
+   * \brief Retrieves Vulkan image's device memory
+   * 
+   * Anything returned by this function is only guaranteed to be safe
+   * to use for images created by ID3D9VkInteropDevice::CreateImage
+   * with the D3D9_VK_IMAGE_STABLE_ADDRESS flag.
+   * 
+   * \param [out] pHandle The device memory handle
+   * \param [out] pOffset Offset of image within the memory segment
+   * \param [out] pSize Size of image within the memory segment
+   * \returns \c S_OK on success
+   * \returns \c D3DERR_NOTFOUND if this texture does not
+   *          currently have a device memory handle
+   */
+  virtual HRESULT STDMETHODCALLTYPE GetVulkanImageDeviceMemory(
+          VkDeviceMemory*       pHandle,
+          VkDeviceSize*         pOffset,
+          VkDeviceSize*         pSize) = 0;
 };
 
 /**

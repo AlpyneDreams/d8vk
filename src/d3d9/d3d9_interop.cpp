@@ -266,6 +266,43 @@ namespace dxvk {
     return S_OK;
   }
 
+  HRESULT STDMETHODCALLTYPE D3D9VkInteropTexture::GetVulkanImageDeviceMemory(
+          VkDeviceMemory*       pHandle,
+          VkDeviceSize*         pOffset,
+          VkDeviceSize*         pSize) {
+      const Rc<DxvkImage> image = m_texture->GetImage();
+
+      if (unlikely(!image)) {
+          if (pHandle != nullptr)
+              *pHandle = VK_NULL_HANDLE;
+
+          if (pOffset != nullptr)
+              *pOffset = 0;
+
+          if (pSize != nullptr)
+			  *pSize = 0;
+
+          return D3DERR_NOTFOUND;
+      }
+
+      
+      DxvkResourceMemoryInfo info = image->getMemoryInfo();
+      
+      if (pHandle != nullptr)
+		  *pHandle = info.memory;
+
+      if (pOffset != nullptr)
+		  *pOffset = info.offset;
+
+	  if (pSize != nullptr)
+		  *pSize = info.size;
+
+      if (info.memory == VK_NULL_HANDLE)
+		  return D3DERR_NOTFOUND;
+      
+      return S_OK;
+  }
+
   ////////////////////////////////
   // Device Interop
   ///////////////////////////////

@@ -90,6 +90,12 @@ namespace dxvk {
             VkImageLayout*        pLayout,
             VkImageCreateInfo*    pInfo);
 
+    HRESULT STDMETHODCALLTYPE GetVulkanImageDeviceMemory(
+            VkDeviceMemory*       pHandle,
+            VkDeviceSize*         pOffset,
+            VkDeviceSize*         pSize);
+
+
     D3D9CommonTexture* GetCommonTexture() { return m_texture; }
 
   private:
