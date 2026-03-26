@@ -9,6 +9,7 @@ namespace dxvk {
 
   class D3D9InterfaceEx;
   class D3D9CommonTexture;
+  class D3D9CommonBuffer;
   class D3D9DeviceEx;
   struct D3D9_COMMON_TEXTURE_DESC;
 
@@ -96,6 +97,35 @@ namespace dxvk {
 
     IUnknown*          m_interface;
     D3D9CommonTexture* m_texture;
+
+  };
+
+  class D3D9VkInteropBuffer final : public ID3D9VkInteropBuffer {
+
+  public:
+
+    D3D9VkInteropBuffer(
+      IUnknown*         pInterface,
+      D3D9CommonBuffer* pBuffer);
+
+    ~D3D9VkInteropBuffer();
+
+    ULONG STDMETHODCALLTYPE AddRef();
+
+    ULONG STDMETHODCALLTYPE Release();
+
+    HRESULT STDMETHODCALLTYPE QueryInterface(
+      REFIID                riid,
+      void**                ppvObject);
+
+    HRESULT STDMETHODCALLTYPE GetVulkanBufferInfo(
+      D3D9VkBufferType          Type,
+      D3D9VkBufferInfo*         pInfo);
+
+  private:
+
+    IUnknown* m_interface;
+    D3D9CommonBuffer* m_buffer;
 
   };
 

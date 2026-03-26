@@ -30,6 +30,11 @@ namespace dxvk {
       return S_OK;
     }
 
+    if (riid == __uuidof(ID3D9VkInteropBuffer)) {
+      *ppvObject = ref(m_buffer.GetVkInterop());
+      return S_OK;
+    }
+
     if (logQueryInterfaceError(__uuidof(IDirect3DVertexBuffer9), riid)) {
       Logger::warn("D3D9VertexBuffer::QueryInterface: Unknown interface query");
       Logger::warn(str::format(riid));
@@ -88,6 +93,11 @@ namespace dxvk {
      || riid == __uuidof(IDirect3DResource9)
      || riid == __uuidof(IDirect3DIndexBuffer9)) {
       *ppvObject = ref(this);
+      return S_OK;
+    }
+
+    if (riid == __uuidof(ID3D9VkInteropBuffer)) {
+      *ppvObject = ref(m_buffer.GetVkInterop());
       return S_OK;
     }
 

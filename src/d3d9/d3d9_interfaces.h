@@ -218,6 +218,55 @@ ID3D9VkInteropTexture : public IUnknown {
 };
 
 /**
+ * \brief Which buffer to access
+ */
+enum D3D9VkBufferType {
+  D3D9_VK_BUFFER_TYPE_STAGING,
+  D3D9_VK_BUFFER_TYPE_REAL
+};
+
+/**
+ * \brief Buffer properties of a resource
+ */
+struct D3D9VkBufferInfo {
+  /// Buffer handle
+  VkBuffer buffer = VK_NULL_HANDLE;
+  /// Buffer offset, in bytes
+  VkDeviceSize offset = 0u;
+  /// Buffer size, in bytes
+  VkDeviceSize size = 0u;
+  /// Pointer to mapped memory region
+  void* mapPtr = nullptr;
+  /// GPU address of the buffer
+  VkDeviceSize gpuAddress = 0u;
+};
+
+/**
+ * \brief D3D9 buffer interface for Vulkan interop
+ *
+ * Provides access to the backing buffer of a D3D9
+ * vertex buffer, index buffer, surface, or volume.
+ */
+MIDL_INTERFACE("6db73b95-ab03-4909-9f4e-5d42a29fe995")
+ID3D9VkInteropBuffer : public IUnknown {
+  /**
+   * \brief Retrieves buffer info
+   *
+   * Retrieves both the buffer handle as well as the buffer's
+   * properties.
+   * 
+   * \returns \c S_OK on success
+   * \returns \c D3DERR_INVALIDCALL on failure
+   * \returns \c D3DERR_NOTFOUND if this buffer does not
+   * have this type of buffer available
+   */
+  virtual HRESULT STDMETHODCALLTYPE GetVulkanBufferInfo(
+          D3D9VkBufferType      Type,
+          D3D9VkBufferInfo*     pInfo) = 0;
+};
+
+
+/**
  * \brief D3D9 extended image flags
  */
 enum D3D9VkExtImageFlagBits : uint32_t {
@@ -429,6 +478,7 @@ ID3D9VkExtSwapchain : public IUnknown {
 __CRT_UUID_DECL(ID3D9VkInteropInterface,   0x3461a81b,0xce41,0x485b,0xb6,0xb5,0xfc,0xf0,0x8b,0xa6,0xa6,0xbd);
 __CRT_UUID_DECL(ID3D9VkInteropInterface1,  0xd6589ed4,0x7a37,0x4096,0xba,0xc2,0x22,0x3b,0x25,0xae,0x31,0xd2);
 __CRT_UUID_DECL(ID3D9VkInteropTexture,     0xd56344f5,0x8d35,0x46fd,0x80,0x6d,0x94,0xc3,0x51,0xb4,0x72,0xc1);
+__CRT_UUID_DECL(ID3D9VkInteropBuffer,      0x6db73b95,0xab03,0x4909,0x9f,0x4e,0x5d,0x42,0xa2,0x9f,0xe9,0x95);
 __CRT_UUID_DECL(ID3D9VkInteropDevice,      0x2eaa4b89,0x0107,0x4bdb,0x87,0xf7,0x0f,0x54,0x1c,0x49,0x3c,0xe0);
 __CRT_UUID_DECL(ID3D9VkExtSwapchain,       0x13776e93,0x4aa9,0x430a,0xa4,0xec,0xfe,0x9e,0x28,0x11,0x81,0xd5);
 #endif

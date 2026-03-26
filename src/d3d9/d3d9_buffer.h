@@ -16,7 +16,7 @@ namespace dxvk {
       const D3D9_BUFFER_DESC*  pDesc,
       const bool               Extended)
     : D3D9Resource<Type...> (pDevice, pDesc->Pool, Extended ),
-      m_buffer              (pDevice, pDesc) {
+      m_buffer              (pDevice, this, pDesc) {
 
     }
 

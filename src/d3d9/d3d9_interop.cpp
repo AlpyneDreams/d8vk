@@ -267,6 +267,66 @@ namespace dxvk {
   }
 
   ////////////////////////////////
+  // Buffer Interop
+  ///////////////////////////////
+
+  D3D9VkInteropBuffer::D3D9VkInteropBuffer(
+          IUnknown*             pInterface,
+          D3D9CommonBuffer*     pBuffer)
+    : m_interface(pInterface)
+    , m_buffer   (pBuffer) {
+
+  }
+
+  D3D9VkInteropBuffer::~D3D9VkInteropBuffer() {
+
+  }
+
+  ULONG STDMETHODCALLTYPE D3D9VkInteropBuffer::AddRef() {
+    return m_interface->AddRef();
+  }
+
+  ULONG STDMETHODCALLTYPE D3D9VkInteropBuffer::Release() {
+    return m_interface->Release();
+  }
+
+  HRESULT STDMETHODCALLTYPE D3D9VkInteropBuffer::QueryInterface(
+          REFIID                riid,
+          void**                ppvObject) {
+    return m_interface->QueryInterface(riid, ppvObject);
+  }
+
+  HRESULT STDMETHODCALLTYPE D3D9VkInteropBuffer::GetVulkanBufferInfo(
+          D3D9VkBufferType      Type,
+          D3D9VkBufferInfo*     pInfo) {
+    if (unlikely(!pInfo)) {
+      return D3DERR_INVALIDCALL;
+    }
+
+    Rc<DxvkBuffer> buffer;
+
+    if (Type == D3D9_VK_BUFFER_TYPE_REAL) {
+      buffer = m_buffer->GetBuffer<D3D9_COMMON_BUFFER_TYPE_REAL>();
+    } else if (Type == D3D9_VK_BUFFER_TYPE_STAGING) {
+      buffer = m_buffer->GetBuffer<D3D9_COMMON_BUFFER_TYPE_STAGING>();
+    } else {
+      return D3DERR_INVALIDCALL;
+    }
+
+    if (unlikely(!buffer)) {
+      return D3DERR_NOTFOUND;
+    }
+
+    DxvkResourceBufferInfo info = buffer->getSliceInfo();
+    pInfo->buffer     = info.buffer;
+    pInfo->offset     = info.offset;
+    pInfo->size       = info.size;
+    pInfo->mapPtr     = info.mapPtr;
+    pInfo->gpuAddress = info.gpuAddress;
+    return S_OK;
+  }
+
+  ////////////////////////////////
   // Device Interop
   ///////////////////////////////
 

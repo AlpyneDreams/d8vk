@@ -5,6 +5,7 @@
 
 #include "d3d9_device_child.h"
 #include "d3d9_format.h"
+#include "d3d9_interop.h"
 
 namespace dxvk {
 
@@ -76,6 +77,7 @@ namespace dxvk {
 
     D3D9CommonBuffer(
             D3D9DeviceEx*      pDevice,
+            IUnknown*          pInterface,
       const D3D9_BUFFER_DESC*  pDesc);
 
     ~D3D9CommonBuffer();
@@ -210,6 +212,8 @@ namespace dxvk {
       return m_desc.Pool == D3DPOOL_SYSTEMMEM && (m_desc.Usage & D3DUSAGE_DYNAMIC) != 0;
     }
 
+    ID3D9VkInteropBuffer* GetVkInterop() { return &m_d3d9Interop; }
+
   private:
 
     Rc<DxvkBuffer> CreateBuffer() const;
@@ -243,6 +247,8 @@ namespace dxvk {
     uint32_t                    m_lockCount = 0;
 
     uint64_t                    m_seq = 0ull;
+
+    D3D9VkInteropBuffer         m_d3d9Interop;
 
   };
 
