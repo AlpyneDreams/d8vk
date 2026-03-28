@@ -350,6 +350,42 @@ namespace dxvk {
         VK_FORMAT_UNDEFINED,
         0 };
 
+#ifdef D3D9_EXTENDED
+      case D3D9Format::BC4U: return {
+        VK_FORMAT_BC4_UNORM_BLOCK,
+        VK_FORMAT_UNDEFINED,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+
+      case D3D9Format::BC4S: return {
+        VK_FORMAT_BC4_SNORM_BLOCK,
+        VK_FORMAT_UNDEFINED,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+
+      case D3D9Format::BC5U: return {
+        VK_FORMAT_BC5_UNORM_BLOCK,
+        VK_FORMAT_UNDEFINED,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+
+      case D3D9Format::BC5S: return {
+        VK_FORMAT_BC5_SNORM_BLOCK,
+        VK_FORMAT_UNDEFINED,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+
+      case D3D9Format::BC6U: return {
+        VK_FORMAT_BC6H_UFLOAT_BLOCK,
+        VK_FORMAT_UNDEFINED,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+
+      case D3D9Format::BC6S: return {
+        VK_FORMAT_BC6H_SFLOAT_BLOCK,
+        VK_FORMAT_UNDEFINED,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+
+      case D3D9Format::BC7U: return {
+        VK_FORMAT_BC7_UNORM_BLOCK,
+        VK_FORMAT_BC7_SRGB_BLOCK,
+        VK_IMAGE_ASPECT_COLOR_BIT };
+#endif
       case D3D9Format::ATI1: return {
         VK_FORMAT_BC4_UNORM_BLOCK,
         VK_FORMAT_UNDEFINED,
@@ -462,6 +498,15 @@ namespace dxvk {
       case D3D9Format::DXT5:
       case D3D9Format::ATI1:
       case D3D9Format::ATI2:
+#ifdef D3D9_EXTENDED
+      case D3D9Format::BC4U:
+      case D3D9Format::BC4S:
+      case D3D9Format::BC5U:
+      case D3D9Format::BC5S:
+      case D3D9Format::BC6U:
+      case D3D9Format::BC6S:
+      case D3D9Format::BC7U:
+#endif
         return { 4, 4, 1 };
 
       case D3D9Format::YUY2:
