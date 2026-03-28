@@ -79,6 +79,16 @@ namespace dxvk {
     A2B10G10R10_XR_BIAS = 119,
     BINARYBUFFER = 199,
 
+#ifdef D3D9_EXTENDED
+    BC4U = MAKEFOURCC('B', 'C', '4', 'U'),
+    BC4S = MAKEFOURCC('B', 'C', '4', 'S'),
+    BC5U = MAKEFOURCC('B', 'C', '5', 'U'),
+    BC5S = MAKEFOURCC('B', 'C', '5', 'S'),
+    BC6U = MAKEFOURCC('B', 'C', '6', 'U'),
+    BC6S = MAKEFOURCC('B', 'C', '6', 'S'),
+    BC7U = MAKEFOURCC('B', 'C', '7', 'U'),
+#endif
+
     // Driver Hacks / Unofficial Formats
     ATI1 = MAKEFOURCC('A', 'T', 'I', '1'),
     ATI2 = MAKEFOURCC('A', 'T', 'I', '2'),
@@ -257,7 +267,17 @@ namespace dxvk {
       && format != D3D9Format::DXT2
       && format != D3D9Format::DXT3
       && format != D3D9Format::DXT4
-      && format != D3D9Format::DXT5;
+      && format != D3D9Format::DXT5
+#ifdef D3D9_EXTENDED
+      && format != D3D9Format::BC4U
+      && format != D3D9Format::BC4S
+      && format != D3D9Format::BC5U
+      && format != D3D9Format::BC5S
+      && format != D3D9Format::BC6U
+      && format != D3D9Format::BC6S
+      && format != D3D9Format::BC7U
+#endif
+      ;
   }
 
   inline bool IsDXTFormat(D3D9Format format) {
@@ -265,7 +285,17 @@ namespace dxvk {
         || format == D3D9Format::DXT2
         || format == D3D9Format::DXT3
         || format == D3D9Format::DXT4
-        || format == D3D9Format::DXT5;
+        || format == D3D9Format::DXT5
+#ifdef D3D9_EXTENDED
+        || format == D3D9Format::BC4U
+        || format == D3D9Format::BC4S
+        || format == D3D9Format::BC5U
+        || format == D3D9Format::BC5S
+        || format == D3D9Format::BC6U
+        || format == D3D9Format::BC6S
+        || format == D3D9Format::BC7U
+#endif
+      ;
   }
 
   // D3D9 documentation says: IDirect3DSurface9::GetDC is valid on the following formats only:
