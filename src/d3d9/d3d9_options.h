@@ -3,6 +3,8 @@
 #include "../util/config/config.h"
 #include "../dxvk/dxvk_device.h"
 
+#define D3D9_EXTENDED
+
 namespace dxvk {
 
   enum class D3D9FloatEmulation {

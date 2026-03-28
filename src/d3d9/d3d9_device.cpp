@@ -31,8 +31,6 @@
 #pragma fenv_access (on)
 #endif
 
-#define D3D9_EXTENDED
-
 namespace dxvk {
 
   D3D9DeviceEx::D3D9DeviceEx(
