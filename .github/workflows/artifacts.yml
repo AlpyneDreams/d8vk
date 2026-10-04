@@ -5,30 +5,34 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   artifacts-mingw-w64:
     runs-on: ubuntu-latest
+    container: archlinux/archlinux:base-devel
 
     steps:
+    - name: Setup container
+      run: |
+        pacman -Syu --needed --noconfirm git meson mingw-w64-gcc glslang
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    
     - name: Checkout code
       id: checkout-code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: recursive
         fetch-depth: 0
 
     - name: Setup problem matcher
-      uses: Joshua-Ashton/gcc-problem-matcher@v3
+      uses: Joshua-Ashton/gcc-problem-matcher@master
 
     - name: Build release
       id: build-release
-      uses: Joshua-Ashton/arch-mingw-github-action@v8
-      with:
-        command: |
-          export VERSION_NAME="${GITHUB_REF##*/}-${GITHUB_SHA##*/}"
-          ./package-release.sh ${VERSION_NAME} build --no-package
-          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
+      run: |
+        export VERSION_NAME="${GITHUB_REF##*/}-${GITHUB_SHA##*/}"
+        ./package-release.sh ${VERSION_NAME} build --no-package
+        echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
 
     - name: Upload artifacts
       id: upload-artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: dxvk-win-${{ env.VERSION_NAME }}
         path: build/dxvk-${{ env.VERSION_NAME }}
@@ -36,18 +40,20 @@ jobs:
 
   artifacts-steamrt-sniper:
     runs-on: ubuntu-latest
-    container: registry.gitlab.steamos.cloud/steamrt/sniper/sdk:beta
+    container: 
+      image: registry.gitlab.steamos.cloud/steamrt/sniper/sdk:beta
+      options: --user 1001
 
     steps:
     - name: Checkout code
       id: checkout-code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: recursive
         fetch-depth: 0
 
     - name: Setup problem matcher
-      uses: Joshua-Ashton/gcc-problem-matcher@v3
+      uses: Joshua-Ashton/gcc-problem-matcher@master
 
     - name: Build release
       id: build-release
@@ -59,7 +65,7 @@ jobs:
 
     - name: Upload artifacts
       id: upload-artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: dxvk-native-${{ env.VERSION_NAME }}
         path: build/dxvk-native-${{ env.VERSION_NAME }}.tar.gz
@@ -76,7 +82,7 @@ jobs:
           echo "VERSION_NAME=${GITHUB_REF##*/}-${GITHUB_SHA##*/}" >> $GITHUB_ENV
 
       - name: Merge Artifacts
-        uses: actions/upload-artifact/merge@v4
+        uses: actions/upload-artifact/merge@v7
         with:
           name: dxvk-${{ env.VERSION_NAME }}
           pattern: dxvk*
