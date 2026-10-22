@@ -388,10 +388,35 @@ namespace dxvk {
 
     /**
      * \brief Notifies resources and signals
+     * 
+     * Notifies signals and tracked objects that the
+     * command buffer has finished executing on the GPU.
      */
-    void notifyObjects() {
+    void notifyFinished() {
       m_objectTracker.clear();
       m_signalTracker.notify();
+    }
+
+    /**
+     * \brief Submit signal
+     *
+     * The signal will be notified once the command
+     * buffer has been submitted to execute on the GPU.
+     * \param [in] signal The signal
+     * \param [in] value Signal value
+     */
+    void submitSignal(const Rc<sync::Signal>& signal, uint64_t value) {
+      m_submitTracker.add(signal, value);
+    }
+
+    /**
+     * \brief Notifies submit signals
+     *
+     * Notifies signals that the command buffer
+     * has been submitted to execute on the GPU.
+     */
+    void notifySubmitted() {
+      m_submitTracker.notify();
     }
 
     /**
@@ -1270,6 +1295,7 @@ namespace dxvk {
 
     DxvkObjectTracker         m_objectTracker;
     DxvkSignalTracker         m_signalTracker;
+    DxvkSignalTracker         m_submitTracker;
     DxvkStatCounters          m_statCounters;
 
     DxvkCommandSubmission     m_commandSubmission;

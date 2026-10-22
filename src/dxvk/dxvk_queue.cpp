@@ -165,6 +165,10 @@ namespace dxvk {
           entry.result = entry.submit.cmdList->submit(
             m_semaphores, m_timelines, trackedSubmitId);
           entry.timelines = m_timelines;
+
+          if (entry.submit.cmdList != nullptr)
+            entry.submit.cmdList->notifySubmitted();
+
         } else if (entry.present.presenter != nullptr) {
           if (entry.latency.tracker)
             entry.latency.tracker->notifyQueuePresentBegin(entry.latency.frameId);
@@ -283,7 +287,7 @@ namespace dxvk {
       // up any thread that's currently waiting on a resource in
       // order to reduce delays as much as possible.
       if (entry.submit.cmdList != nullptr)
-        entry.submit.cmdList->notifyObjects();
+        entry.submit.cmdList->notifyFinished();
 
       lock.lock();
       m_finishQueue.pop();
