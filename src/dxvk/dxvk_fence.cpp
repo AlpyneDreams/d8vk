@@ -7,6 +7,10 @@ namespace dxvk {
           DxvkDevice*           device,
     const DxvkFenceCreateInfo&  info)
   : m_vkd(device->vkd()), m_info(info) {
+    if (info.importSemaphore != VK_NULL_HANDLE) {
+      m_semaphore = info.importSemaphore;
+      return;
+    }
     VkSemaphoreTypeCreateInfo typeInfo = { VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO };
     typeInfo.semaphoreType = VK_SEMAPHORE_TYPE_TIMELINE;
     typeInfo.initialValue = info.initialValue;
@@ -68,7 +72,8 @@ namespace dxvk {
       }
       m_thread.join();
     }
-    m_vkd->vkDestroySemaphore(m_vkd->device(), m_semaphore, nullptr);
+    if (m_info.importSemaphore == VK_NULL_HANDLE)
+      m_vkd->vkDestroySemaphore(m_vkd->device(), m_semaphore, nullptr);
   }
 
 

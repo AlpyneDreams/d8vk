@@ -27,6 +27,7 @@ namespace dxvk {
       // we could add a `int fd` here, etc.
       HANDLE          sharedHandle = INVALID_HANDLE_VALUE;
     };
+    VkSemaphore     importSemaphore = VK_NULL_HANDLE;
   };
 
   /**
